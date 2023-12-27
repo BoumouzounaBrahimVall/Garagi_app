@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:garagi_app/data/car_data.dart';
-import 'package:garagi_app/screens/main/car_finder/widgets/car_card_widget.dart';
+import '/screens/client/car_finder/widgets/car_card_widget.dart';
 
 class CarFinderWidget extends StatefulWidget {
   const CarFinderWidget({super.key});

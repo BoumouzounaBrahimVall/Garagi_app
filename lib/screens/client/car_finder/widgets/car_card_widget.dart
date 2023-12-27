@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:garagi_app/config/colors.dart';
-import 'package:garagi_app/screens/main/car_finder/car_detail_screen.dart';
+import '/screens/client/car_finder/car_detail_screen.dart';
 import 'package:garagi_app/widgets/screen_transitions_widget.dart';
 
 class CarCardWidget extends StatefulWidget {

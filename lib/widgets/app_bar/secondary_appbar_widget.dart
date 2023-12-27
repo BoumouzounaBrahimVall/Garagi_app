@@ -7,7 +7,7 @@ import '../../../../config/colors.dart';
 class SecondaryAppBarWidget extends StatefulWidget
     implements PreferredSizeWidget {
   final String? title;
-  final Widget? icon;
+  final Widget? icon, leftIcon;
   final Color? backgroundColor, actionColor, titleColor;
   final void Function()? onPressedBack, onPressedMore;
   final double horizontalPadding;
@@ -16,6 +16,7 @@ class SecondaryAppBarWidget extends StatefulWidget
     Key? key,
     this.title,
     this.icon,
+    this.leftIcon,
     this.actionColor,
     this.titleColor,
     this.onPressedBack,
@@ -51,18 +52,56 @@ class _SecondaryAppBarWidgetState extends State<SecondaryAppBarWidget> {
           fontSize: 20,
         ),
       ),
+      actions: widget.onPressedMore != null
+          ? [
+              Padding(
+                padding: EdgeInsets.only(
+                  right: widget.horizontalPadding,
+                ),
+                child: IconButton(
+                  icon: Container(
+                    height: 35,
+                    width: 35,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.colorYellow),
+                    child: const Text('i',
+                        style: TextStyle(
+                            fontSize: 23, fontWeight: FontWeight.bold)),
+                  ),
+                  padding: const EdgeInsets.all(
+                    0,
+                  ),
+                  style: const ButtonStyle(
+                    alignment: Alignment.center,
+                    backgroundColor: MaterialStatePropertyAll(
+                      AppColors.colorYellow,
+                    ),
+                  ),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onPressed: widget.onPressedMore != null
+                      ? widget.onPressedMore!
+                      : null,
+                ),
+              ),
+            ]
+          : null,
       leading: Padding(
         padding: EdgeInsets.only(
           left: widget.horizontalPadding,
         ),
         child: widget.onPressedBack != null
             ? IconButton(
-                icon: FeatherIcon(
-                  FeatherIcons.chevronLeft,
-                  color: widget.actionColor ?? AppColors.colorOrange,
-                  size: 40,
-                  strokeWidth: 3,
-                ),
+                icon: widget.leftIcon != null
+                    ? widget.leftIcon!
+                    : FeatherIcon(
+                        FeatherIcons.chevronLeft,
+                        color: widget.actionColor ?? AppColors.colorYellow,
+                        size: 40,
+                        strokeWidth: 3,
+                      ),
                 padding: const EdgeInsets.all(0),
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,

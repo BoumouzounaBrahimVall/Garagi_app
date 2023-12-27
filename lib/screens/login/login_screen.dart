@@ -4,11 +4,11 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:garagi_app/config/constants.dart';
-import 'package:garagi_app/screens/main/home/home_screen.dart';
-import 'package:garagi_app/widgets/app_bar/secondary_appbar_widget.dart';
-import 'package:garagi_app/widgets/form/primary_button_widget.dart';
-import 'package:garagi_app/widgets/form/text_input_widget.dart';
-import 'package:garagi_app/widgets/screen_transitions_widget.dart';
+import '../client/home/client_home_screen.dart';
+import '/widgets/app_bar/secondary_appbar_widget.dart';
+import '/widgets/form/primary_button_widget.dart';
+import '/widgets/form/text_input_widget.dart';
+import '/widgets/screen_transitions_widget.dart';
 
 import '../../../../config/colors.dart';
 
@@ -256,7 +256,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             if (connectivity()) {
                               Navigator.of(context).push(
                                 SlideLeftRouteWidget(
-                                  const HomeScreen(),
+                                  const ClientHomeScreen(),
                                 ),
                               );
                               //  loginUsers();

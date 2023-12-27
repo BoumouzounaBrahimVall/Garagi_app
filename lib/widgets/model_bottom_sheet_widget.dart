@@ -90,6 +90,6 @@ void modalBottomSheetWidget(
     ),
   );
   future.then((void value) {
-    onClose!();
+    if (onClose != null) onClose();
   });
 }
