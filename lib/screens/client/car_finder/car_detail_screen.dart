@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:garagi_app/config/colors.dart';
+import 'package:garagi_app/config/consultations_fake_data.dart';
 import 'package:garagi_app/domain/models/choice_model.dart';
+import 'package:garagi_app/domain/models/consultation_model.dart';
+import 'package:garagi_app/screens/client/car_finder/consultation/consultation_screen.dart';
+import 'package:garagi_app/screens/client/car_finder/consultation/consultation_card_widget.dart';
+import 'package:garagi_app/screens/client/car_finder/consultation/methods/consultation_methods.dart';
 import 'package:garagi_app/widgets/app_bar/secondary_appbar_widget.dart';
+import 'package:garagi_app/widgets/screen_transitions_widget.dart';
 
 class CarDetailScreen extends StatefulWidget {
   const CarDetailScreen({super.key, required this.carId});
@@ -36,6 +42,14 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
     ChoiceModel(name: "Diagnostics", index: 2, isSelected: false),
     ChoiceModel(name: "Reperations", index: 3, isSelected: false),
   ];
+  List<ConsultationModel> filteredConsultations = [];
+
+  @override
+  void initState() {
+    super.initState();
+    filteredConsultations = consultationFakeData;
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -84,90 +98,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 ),
               ),
               // car details card
-              Container(
-                padding: const EdgeInsets.all(12),
-                margin: const EdgeInsets.symmetric(vertical: 12),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  color: AppColors.colorWhite,
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: AppColors.colorBlack.withOpacity(0.1),
-                      blurRadius: 4.0,
-                      spreadRadius: 1.0,
-                      offset: const Offset(0.0, 0.0),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: AppColors.colorYellowLight),
-                          child: SvgPicture.asset(
-                            'assets/svg/car.svg',
-                            color: AppColors.colorYellow,
-                            width: 50,
-                            height: 60,
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Toyota Hilux 2020",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            const Text(
-                              "1234AA12",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            ElevatedButton.icon(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.location_on,
-                                size: 24.0,
-                              ),
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateColor.resolveWith(
-                                          (states) => AppColors.colorYellow)),
-                              label: const Text(
-                                'Location',
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        statsContainer(value: "10", title: "Vidanges"),
-                        statsContainer(value: "100", title: "KM restant"),
-                        statsContainer(value: "700", title: "depances"),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              carDetailWidget(),
               const Text(
                 "Historique",
                 style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
@@ -183,6 +114,17 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                         (choice) {
                           return GestureDetector(
                             onTap: () {
+                              if (choice.index == 0) {
+                                // index 0 is for all categories
+                                filteredConsultations = consultationFakeData;
+                              } else {
+                                // indexs 1 to 3 are for all categories and needs -1 to be equal to enum indexs
+                                filteredConsultations = consultationFakeData
+                                    .map((e) => e)
+                                    .where((elem) =>
+                                        elem.type.index == choice.index - 1)
+                                    .toList();
+                              }
                               setState(() {
                                 for (var element in categories) {
                                   element.isSelected = false;
@@ -221,9 +163,19 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 child: ListView(
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    consultationCard(width),
-                    consultationCard(width),
-                    consultationCard(width),
+                    ...filteredConsultations
+                        .map((e) => ConsultationCardWidget(
+                              type: e.type,
+                              doneAt: e.date,
+                              price: e.price,
+                              stationName: e.stationName,
+                              consultationId: e.consultationId,
+                              showMoreAction: () {
+                                Navigator.of(context).push(SlideLeftRouteWidget(
+                                    ConsultationScreen(model: e)));
+                              },
+                            ))
+                        .toList(),
                   ],
                 ),
               )
@@ -234,118 +186,87 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
     );
   }
 
-  Widget consultationCard(double width) {
+  Widget carDetailWidget() {
     return Container(
-        padding: const EdgeInsets.all(12),
-        margin: const EdgeInsets.only(bottom: 16),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          color: AppColors.colorWhite,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: AppColors.colorBlack.withOpacity(0.1),
-              blurRadius: 4.0,
-              spreadRadius: 1.0,
-              offset: const Offset(0.0, 0.0),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                SvgPicture.asset(
-                  'assets/svg/diagnostic_svg.svg',
-                  color: AppColors.colorGray,
-                  fit: BoxFit.cover,
+      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        color: AppColors.colorWhite,
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: AppColors.colorBlack.withOpacity(0.1),
+            blurRadius: 4.0,
+            spreadRadius: 1.0,
+            offset: const Offset(0.0, 0.0),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppColors.colorYellowLight),
+                child: SvgPicture.asset(
+                  'assets/svg/car.svg',
+                  color: AppColors.colorYellow,
+                  width: 50,
+                  height: 60,
                 ),
-                const SizedBox(
-                  width: 16,
-                ),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  //location icon and title
-                  Row(
-                    children: const [
-                      Icon(
-                        Icons.place,
-                        size: 12,
-                        color: AppColors.colorGrayDark,
-                      ),
-                      Text(
-                        "Garaj Ahmed",
-                        style: TextStyle(
-                            fontSize: 12, color: AppColors.colorGrayDark),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: width / 2.5,
-                    child: const Text(
-                      "Diagnistiques",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Toyota Hilux 2020",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const Text(
-                    "500 DH",
-                    style: TextStyle(
-                        color: AppColors.colorGrayDark,
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold),
+                    "1234AA12",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
-                ]),
-              ],
-            ),
-            SizedBox(
-              height: 77,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: const [
-                      Icon(
-                        Icons.watch_later_outlined,
-                        size: 12,
-                        color: AppColors.colorGrayDark,
-                      ),
-                      Text(
-                        "21-12-2022",
-                        style: TextStyle(
-                            fontSize: 12, color: AppColors.colorGrayDark),
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 15,
                   ),
-                  SizedBox(
-                    width: 80,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [
-                        Text(
-                          'Voir plus',
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: AppColors.colorYellow,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        Icon(
-                          Icons.chevron_right_rounded,
-                          size: 24.0,
-                          color: AppColors.colorYellow,
-                        ),
-                      ],
+                  ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.location_on,
+                      size: 24.0,
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => AppColors.colorYellow)),
+                    label: const Text(
+                      'Location',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
-              ),
-            )
-          ],
-        ));
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              statsContainer(value: "10", title: "Vidanges"),
+              statsContainer(value: "100", title: "KM restant"),
+              statsContainer(value: "700", title: "depances"),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

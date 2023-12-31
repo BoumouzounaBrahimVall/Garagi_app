@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:garagi_app/screens/manager/gerer_voiture/details_voiture_screen.dart';
+import 'package:garagi_app/widgets/screen_transitions_widget.dart';
 
 import '../../../config/colors.dart';
-import '../../../widgets/listTile/listiTle_widget.dart';
+import '../../../widgets/rectangular_info_card_widget.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({
@@ -15,9 +17,9 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
-      double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.colorWhite,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,16 +28,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             padding: const EdgeInsets.all(10),
             child: TextFormField(
               decoration: InputDecoration(
-                 hintText: 'search',
+                hintText: 'search',
                 contentPadding: EdgeInsets.all(10),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        width: 1,
-                      )
-                    ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      width: 1,
+                    )),
               ),
-              
             ),
           ),
           const Text(
@@ -46,18 +46,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
           Expanded(
-                  child:ListView(
-                      padding: const EdgeInsets.all(4),
-                      children: List.generate(6, (index) => ListTileWidget(
-                        title: 'Audi RS${index + 1}',
-                        subtitle: '2456AA${index + 1}',
-                        svgPicture: SvgPicture.asset(
-                          'assets/svg/car.svg',
-                          color: AppColors.colorYellow,
-                        ),
-                      )),
-      )
-          )
+              child: ListView(
+            padding: const EdgeInsets.all(4),
+            children: List.generate(
+                6,
+                (index) => RectangularInfoCardWidget(
+                      onTap: () {
+                        Navigator.of(context).push(
+                            SlideLeftRouteWidget(const DetailsVoitureScreen()));
+                      },
+                      title: 'Audi RS${index + 1}',
+                      subtitle: '2456AA${index + 1}',
+                      svgPicture: SvgPicture.asset(
+                        'assets/svg/car.svg',
+                        color: AppColors.colorYellow,
+                      ),
+                    )),
+          ))
         ],
       ),
     );
