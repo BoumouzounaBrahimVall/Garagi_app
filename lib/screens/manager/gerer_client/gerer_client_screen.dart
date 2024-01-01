@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagi_app/screens/manager/gerer_client/add_client_screen.dart';
 import 'package:garagi_app/widgets/app_bar/secondary_appbar_widget.dart';
 import 'package:garagi_app/widgets/button_primary_widget.dart';
 
@@ -63,10 +64,14 @@ class _GererClientScreenState extends State<GererClientScreen> {
           ),
         ),
         Positioned(
-          child:
-              ButtonPrimaryWidget(title: 'Ajouter Client', onPressed: () => {}),
           bottom: 10,
           left: width * 0.025,
+          child: ButtonPrimaryWidget(
+              title: 'Ajouter Client',
+              onPressed: () => {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const AddClientScreen()))
+                  }),
         )
       ],
     );

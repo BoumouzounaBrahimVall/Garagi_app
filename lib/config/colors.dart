@@ -22,6 +22,8 @@ class AppColors {
   // static const colorYellow = Color(0xFFF5BA22);
   static const colorGrayDark = Color(0xFFAAAAAA);
   static const colorGray = Color(0xFFDEDEDE);
+  static const colorGrayLight = Color(0xFFF9F9F9);
+  static const colorBrown = Color(0xFF333333);
 }
 
 class AvatarsBgColors {
