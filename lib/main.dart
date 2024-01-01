@@ -13,6 +13,7 @@ import '../provider/keyboard_provider.dart';
 import '../provider/local_provider.dart';
 import '../domain/change_notifiers/auth_model.dart';
 import 'config/theme.dart';
+import 'provider/car_form_provider.dart';
 
 //    _____                           _____    _
 //   / ____|                         / ____|  |_|
@@ -63,6 +64,9 @@ class MyApp extends StatelessWidget {
               ),
               ChangeNotifierProvider(
                 create: (_) => ClientFormProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => CarFormProvider(),
               ),
             ],
             child: MaterialApp(

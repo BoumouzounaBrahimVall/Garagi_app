@@ -5,6 +5,7 @@ import 'package:garagi_app/widgets/car_item_info_widget.dart';
 
 import '../../../widgets/button_primary_widget.dart';
 import '../../../widgets/form/text_form_search_widget.dart';
+import 'add_voiture/add_voiture_screen.dart';
 
 class GererVoitureScreen extends StatefulWidget {
   const GererVoitureScreen({
@@ -67,8 +68,8 @@ class _GererVoitureScreenState extends State<GererVoitureScreen> {
           child: ButtonPrimaryWidget(
               title: 'Ajouter Voiture',
               onPressed: () => {
-                    /*   Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const /AddClientScreen()))*/
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const AddVoitureScreen()))
                   }),
         )
       ],

@@ -5,7 +5,7 @@ class TextFormWithLabelWidget extends StatefulWidget {
       {Key? key,
       required this.label,
       required this.placeholder,
-      required this.icon,
+      this.icon,
       this.controller,
       this.keyboardType,
       this.action,
@@ -17,7 +17,7 @@ class TextFormWithLabelWidget extends StatefulWidget {
       : super(key: key);
   final String label;
   final String placeholder;
-  final IconData icon;
+  final IconData? icon;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final Function? action;
