@@ -12,6 +12,7 @@ class AppColors {
 
   static const colorOrange = Color.fromRGBO(238, 147, 33, 1); // Primary
   static const colorOrangeLight = Color(0xFFFFF5EE);
+  static const colorOrangeLight1 = Color.fromARGB(255, 255, 230, 212);
 
   static const colorWhite = Color(0xFFFFFFFF); // Primary
 

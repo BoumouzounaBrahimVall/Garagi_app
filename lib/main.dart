@@ -11,6 +11,7 @@ import '../l10n/l10n.dart';
 import '../provider/keyboard_provider.dart';
 import '../provider/local_provider.dart';
 import '../domain/change_notifiers/auth_model.dart';
+import 'config/theme.dart';
 
 //    _____                           _____    _
 //   / ____|                         / ____|  |_|
@@ -62,12 +63,7 @@ class MyApp extends StatelessWidget {
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                fontFamily: AppConstants.primaryTypeFace,
-                splashColor: AppColors.colorBlueLight1,
-                highlightColor: Colors.transparent,
-                scaffoldBackgroundColor: AppColors.colorWhite,
-              ),
+              theme: themeData,
               initialRoute: '/',
               routes: appRoutes,
               locale: provider.locale,

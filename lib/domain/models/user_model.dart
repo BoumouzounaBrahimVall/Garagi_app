@@ -29,7 +29,7 @@ class User {
     required this.role,
     this.passwordConfirmation,
   });
-
+  int? id;
   String username;
   String email;
   late String? password;
