@@ -116,7 +116,7 @@ class _AddClientScreenState extends State<AddClientScreen> {
                   title: 'Enregistrer',
                   onPressed: () => {
                         debugPrint(
-                            'Client${context.read<ClientFormProvider>().getFormClientModel}')
+                            'Client ${context.read<ClientFormProvider>().getFormClientModel}')
                       }),
             )
           ],

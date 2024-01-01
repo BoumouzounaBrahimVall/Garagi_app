@@ -2,6 +2,8 @@ class CarModel {
   final String carId;
   final String carTitle;
   String message;
+  String matricule;
+  String dateCreation;
   bool isDanger;
 
   CarModel({
@@ -9,5 +11,7 @@ class CarModel {
     required this.carTitle,
     this.isDanger = false,
     this.message = '',
+    this.dateCreation = '',
+    this.matricule = '',
   });
 }
