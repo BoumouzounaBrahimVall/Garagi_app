@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:garagi_app/provider/client_form_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../config/app_routes.dart';
@@ -11,6 +12,8 @@ import '../l10n/l10n.dart';
 import '../provider/keyboard_provider.dart';
 import '../provider/local_provider.dart';
 import '../domain/change_notifiers/auth_model.dart';
+import 'config/theme.dart';
+import 'provider/car_form_provider.dart';
 
 //    _____                           _____    _
 //   / ____|                         / ____|  |_|
@@ -59,15 +62,16 @@ class MyApp extends StatelessWidget {
               ChangeNotifierProvider(
                 create: (_) => KeyboardProvider(),
               ),
+              ChangeNotifierProvider(
+                create: (_) => ClientFormProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => CarFormProvider(),
+              ),
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                fontFamily: AppConstants.primaryTypeFace,
-                splashColor: AppColors.colorBlueLight1,
-                highlightColor: Colors.transparent,
-                scaffoldBackgroundColor: AppColors.colorWhite,
-              ),
+              theme: themeData,
               initialRoute: '/',
               routes: appRoutes,
               locale: provider.locale,

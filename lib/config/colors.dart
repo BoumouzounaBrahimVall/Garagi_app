@@ -12,6 +12,7 @@ class AppColors {
 
   static const colorOrange = Color.fromRGBO(238, 147, 33, 1); // Primary
   static const colorOrangeLight = Color(0xFFFFF5EE);
+  static const colorOrangeLight1 = Color.fromARGB(255, 255, 230, 212);
 
   static const colorWhite = Color(0xFFFFFFFF); // Primary
 
@@ -21,6 +22,8 @@ class AppColors {
   // static const colorYellow = Color(0xFFF5BA22);
   static const colorGrayDark = Color(0xFFAAAAAA);
   static const colorGray = Color(0xFFDEDEDE);
+  static const colorGrayLight = Color(0xFFF9F9F9);
+  static const colorBrown = Color(0xFF333333);
 }
 
 class AvatarsBgColors {
