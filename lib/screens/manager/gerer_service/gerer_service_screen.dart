@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:garagi_app/widgets/app_bar/secondary_appbar_widget.dart';
 
 class GererServiceScreen extends StatefulWidget {
   const GererServiceScreen({

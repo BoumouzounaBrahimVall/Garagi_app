@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:garagi_app/config/colors.dart';
-import 'package:garagi_app/domain/models/user_model.dart';
 
 import '../screens/manager/gerer_client/gerer_client_screen.dart';
 import 'button_secondary_widget.dart';
 
 class UserItemInfoWidget extends StatelessWidget {
-  const UserItemInfoWidget({required this.user, Key? key}) : super(key: key);
+  const UserItemInfoWidget({required this.user, super.key});
   final UserModel user;
   @override
   Widget build(BuildContext context) {

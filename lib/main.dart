@@ -6,10 +6,7 @@ import 'package:garagi_app/provider/client_form_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../config/app_routes.dart';
-import '../config/colors.dart';
-import '../config/constants.dart';
 import '../l10n/l10n.dart';
-import '../provider/keyboard_provider.dart';
 import '../provider/local_provider.dart';
 import '../domain/change_notifiers/auth_model.dart';
 import 'config/theme.dart';
@@ -59,9 +56,11 @@ class MyApp extends StatelessWidget {
           final provider = Provider.of<LocaleProvider>(context);
           return MultiProvider(
             providers: [
-              ChangeNotifierProvider(
+              /**
+                ChangeNotifierProvider(
                 create: (_) => KeyboardProvider(),
               ),
+               */
               ChangeNotifierProvider(
                 create: (_) => ClientFormProvider(),
               ),

@@ -6,7 +6,6 @@ import 'package:garagi_app/domain/models/choice_model.dart';
 import 'package:garagi_app/domain/models/consultation_model.dart';
 import 'package:garagi_app/screens/client/car_finder/consultation/consultation_screen.dart';
 import 'package:garagi_app/screens/client/car_finder/consultation/consultation_card_widget.dart';
-import 'package:garagi_app/screens/client/car_finder/consultation/methods/consultation_methods.dart';
 import 'package:garagi_app/widgets/app_bar/secondary_appbar_widget.dart';
 import 'package:garagi_app/widgets/screen_transitions_widget.dart';
 
@@ -52,7 +51,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    // double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: AppColors.colorWhite,

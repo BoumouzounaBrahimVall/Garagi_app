@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:garagi_app/config/colors.dart';
 
 class StepInfosItem extends StatelessWidget {
-  StepInfosItem({required this.stepNumber, required this.stepTitle, Key? key})
-      : super(key: key);
-  String stepNumber;
-  String stepTitle;
+  const StepInfosItem(
+      {required this.stepNumber, required this.stepTitle, super.key});
+  final String stepNumber;
+  final String stepTitle;
   @override
   Widget build(BuildContext context) {
     return Row(

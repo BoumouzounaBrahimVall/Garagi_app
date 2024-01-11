@@ -26,7 +26,7 @@ class _CarFinderWidgetState extends State<CarFinderWidget> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    //double height = MediaQuery.of(context).size.height;
     int columnCount = 2;
     /*24 is for notification bar on Android*/
     final double itemHeight = (width) / 2;

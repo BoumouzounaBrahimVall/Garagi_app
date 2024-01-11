@@ -61,8 +61,9 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
                 initialChildSize: 0.8,
                 maxChildSize: 0.9,
                 minChildSize: 0.5,
-                child: const SizedBox(
+                child: SizedBox(
                   height: 200,
+                  width: width,
                 ));
             //modalBottomSheetWidget
           },
@@ -93,9 +94,9 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
                   // Important: Remove any padding from the ListView.
                   padding: const EdgeInsets.only(top: 80, left: 24, right: 24),
                   children: [
-                    Column(
+                    const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         CircleAvatar(
                           backgroundColor: AppColors.colorWhite,
                           radius: 50,

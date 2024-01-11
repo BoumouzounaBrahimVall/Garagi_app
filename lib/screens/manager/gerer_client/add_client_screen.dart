@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:garagi_app/config/colors.dart';
 import 'package:garagi_app/provider/client_form_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -8,7 +7,7 @@ import '../../../widgets/form/text_form_with_label_widget.dart';
 import '../../layout/secondary_layout_screen.dart';
 
 class AddClientScreen extends StatefulWidget {
-  const AddClientScreen({Key? key}) : super(key: key);
+  const AddClientScreen({super.key});
 
   @override
   _AddClientScreenState createState() => _AddClientScreenState();
@@ -17,7 +16,7 @@ class AddClientScreen extends StatefulWidget {
 class _AddClientScreenState extends State<AddClientScreen> {
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    //double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return SecondaryLayoutScreen(
         appBarTitle: "Ajouter un client",

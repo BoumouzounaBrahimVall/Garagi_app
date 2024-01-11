@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:garagi_app/config/colors.dart';
 import 'package:garagi_app/provider/car_form_provider.dart';
-import 'package:garagi_app/provider/client_form_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../widgets/button_primary_widget.dart';
-import '../../../../widgets/form/text_form_with_label_widget.dart';
 import '../../../layout/secondary_layout_screen.dart';
 import 'steps/step_form_client .dart';
 import 'steps/step_form_voiture.dart';

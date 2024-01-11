@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:garagi_app/config/colors.dart';
 import 'package:garagi_app/domain/models/car_model.dart';
-import 'package:garagi_app/domain/models/user_model.dart';
-
-import '../screens/manager/gerer_client/gerer_client_screen.dart';
-import 'button_secondary_widget.dart';
 
 class CarItemInfoWidget extends StatelessWidget {
-  const CarItemInfoWidget({required this.car, Key? key}) : super(key: key);
+  const CarItemInfoWidget({required this.car, super.key});
   final CarModel car;
   @override
   Widget build(BuildContext context) {
@@ -27,7 +23,7 @@ class CarItemInfoWidget extends StatelessWidget {
         ],
         //border: OutlineInputBorder(),
         border: Border.all(
-          color: Color(0xffECECEC), // Color of the border
+          color: const Color(0xffECECEC), // Color of the border
           width: 1, // Width of the border
         ),
 
@@ -39,21 +35,21 @@ class CarItemInfoWidget extends StatelessWidget {
           Row(
             children: [
               Image.asset('assets/icons/car-icon.png'),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    car.carTitle ?? '',
+                    car.carTitle,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
-                    car.matricule ?? '',
+                    car.matricule,
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
-                        .merge(TextStyle(color: AppColors.colorGrayDark)),
+                        .merge(const TextStyle(color: AppColors.colorGrayDark)),
                   )
                 ],
               ),
@@ -70,7 +66,7 @@ class CarItemInfoWidget extends StatelessWidget {
                   // add icon, by default "3 dot" icon
                   // icon: Icon(Icons.book)
                   itemBuilder: (context) {
-                    return [
+                    return const [
                       PopupMenuItem<int>(
                         value: 0,
                         child: Text("My Account"),
@@ -101,13 +97,14 @@ class CarItemInfoWidget extends StatelessWidget {
                     color: AppColors.colorBlack.withOpacity(0.5),
                     size: 14,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 4,
                   ),
                   Text(
-                    car.dateCreation ?? '',
+                    car.dateCreation,
                     style: Theme.of(context).textTheme.bodySmall!.merge(
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w100)),
+                        const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w100)),
                   ),
                 ],
               )

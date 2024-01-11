@@ -16,8 +16,8 @@ class DetailsVoitureScreen extends StatefulWidget {
 class _DetailsVoitureScreenState extends State<DetailsVoitureScreen> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    //  double width = MediaQuery.of(context).size.width;
+    //  double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: const PrimaryAppBarWidget(horizontalPadding: 20),
       backgroundColor: AppColors.colorWhite,

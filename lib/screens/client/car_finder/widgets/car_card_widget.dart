@@ -5,7 +5,7 @@ import '/screens/client/car_finder/car_detail_screen.dart';
 import 'package:garagi_app/widgets/screen_transitions_widget.dart';
 
 class CarCardWidget extends StatefulWidget {
-  CarCardWidget(
+  const CarCardWidget(
       {super.key,
       required this.carId,
       required this.carTitle,
@@ -13,8 +13,8 @@ class CarCardWidget extends StatefulWidget {
       this.message = ''});
   final String carId;
   final String carTitle;
-  String message;
-  bool isDanger;
+  final String message;
+  final bool isDanger;
   @override
   State<CarCardWidget> createState() => _CarCardWidgetState();
 }

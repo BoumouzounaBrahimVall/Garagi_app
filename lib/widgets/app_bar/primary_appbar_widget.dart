@@ -1,4 +1,3 @@
-import 'package:feather_icons_svg/feather_icons_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../config/constants.dart';
@@ -13,12 +12,12 @@ class PrimaryAppBarWidget extends StatefulWidget
   final double horizontalPadding;
 
   const PrimaryAppBarWidget({
-    Key? key,
+    super.key,
     this.icon,
     this.onPressedMore,
     this.backgroundColor,
     required this.horizontalPadding,
-  }) : super(key: key);
+  });
 
   @override
   State<PrimaryAppBarWidget> createState() => _PrimaryAppBarWidgetState();
@@ -76,7 +75,7 @@ class _PrimaryAppBarWidgetState extends State<PrimaryAppBarWidget> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onPressed:
-                widget.onPressedMore != null ? widget.onPressedMore! : null,
+                widget.onPressedMore != null ? widget.onPressedMore! : () {},
           ),
         ),
       ],

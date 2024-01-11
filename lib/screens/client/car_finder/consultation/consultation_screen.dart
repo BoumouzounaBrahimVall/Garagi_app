@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:garagi_app/config/colors.dart';
-import 'package:garagi_app/domain/models/choice_model.dart';
 import 'package:garagi_app/domain/models/consultation_model.dart';
 import 'package:garagi_app/screens/client/car_finder/consultation/methods/consultation_methods.dart';
 import 'package:garagi_app/widgets/app_bar/secondary_appbar_widget.dart';

@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import '../config/colors.dart';
 
 class ButtonSecondaryWidget extends StatelessWidget {
-  ButtonSecondaryWidget(
-      {Key? key,
+  const ButtonSecondaryWidget(
+      {super.key,
       this.widthp,
       this.icon,
       required this.title,
-      required this.onPressed})
-      : super(key: key);
+      required this.onPressed});
   final String title;
-  Function onPressed;
-  double? widthp;
-  IconData? icon;
+  final Function onPressed;
+  final double? widthp;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {

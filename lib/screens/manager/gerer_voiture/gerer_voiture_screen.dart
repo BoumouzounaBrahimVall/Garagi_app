@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:garagi_app/domain/models/car_model.dart';
-import 'package:garagi_app/widgets/app_bar/secondary_appbar_widget.dart';
 import 'package:garagi_app/widgets/car_item_info_widget.dart';
 
 import '../../../widgets/button_primary_widget.dart';
@@ -55,7 +54,8 @@ class _GererVoitureScreenState extends State<GererVoitureScreen> {
                 child: ListView.separated(
                     itemBuilder: (context, index) =>
                         CarItemInfoWidget(car: car),
-                    separatorBuilder: (context, index) => SizedBox(height: 16),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 16),
                     itemCount: 10),
               ),
               const SizedBox(height: 60),

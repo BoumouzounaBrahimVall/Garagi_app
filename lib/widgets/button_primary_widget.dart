@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:garagi_app/config/colors.dart';
 
 class ButtonPrimaryWidget extends StatelessWidget {
-  ButtonPrimaryWidget(
-      {Key? key, this.widthp, required this.title, required this.onPressed})
-      : super(key: key);
+  const ButtonPrimaryWidget(
+      {super.key, this.widthp, required this.title, required this.onPressed});
   final String title;
-  Function onPressed;
-  double? widthp;
+  final Function onPressed;
+  final double? widthp;
 
   @override
   Widget build(BuildContext context) {
