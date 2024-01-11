@@ -36,7 +36,6 @@ class _TextFormWithLabelWidgetState extends State<TextFormWithLabelWidget> {
   bool _isPasswordVisible = false;
   @override
   void initState() {
-    // TODO: implement initState
     _isPasswordVisible = widget.isPassword;
     super.initState();
   }
@@ -78,7 +77,7 @@ class _TextFormWithLabelWidgetState extends State<TextFormWithLabelWidget> {
                     controller: widget.controller,
                     keyboardType: widget.keyboardType,
                     onTap: () => widget.action,
-                    obscureText: _isPasswordVisible ?? false,
+                    obscureText: _isPasswordVisible,
                     style: Theme.of(context).textTheme.bodyMedium,
                     onChanged: (value) {
                       if (widget.onChanged != null) widget.onChanged!(value);
@@ -108,7 +107,7 @@ class _TextFormWithLabelWidgetState extends State<TextFormWithLabelWidget> {
                           color: Color(0xff879EA4),
                         ),
                         fillColor: const Color.fromARGB(255, 0, 0, 0),
-                        hintText: widget.placeholder ?? ' ',
+                        hintText: widget.placeholder,
                         hintStyle: TextStyle(color: Color(0xff879EA4))),
                   ),
                 ))

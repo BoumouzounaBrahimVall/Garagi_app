@@ -4,7 +4,7 @@ import '../../../config/constants.dart';
 import '../../../config/colors.dart';
 
 class PrimaryButtonWidget extends StatelessWidget {
-  PrimaryButtonWidget(
+  const PrimaryButtonWidget(
       {super.key,
       required this.buttonLabel,
       required this.onPressed,
@@ -12,7 +12,7 @@ class PrimaryButtonWidget extends StatelessWidget {
 
   final String buttonLabel;
   final void Function()? onPressed;
-  Color? buttonColor;
+  final Color? buttonColor;
 
   @override
   Widget build(BuildContext context) {
