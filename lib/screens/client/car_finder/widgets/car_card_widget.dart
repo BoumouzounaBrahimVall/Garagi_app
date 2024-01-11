@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:garagi_app/config/colors.dart';
-import '/screens/client/car_finder/car_detail_screen.dart';
-import 'package:garagi_app/widgets/screen_transitions_widget.dart';
+import '../../../../config/colors.dart';
+import '../../../../screens/client/car_finder/car_detail_screen.dart';
+import '../../../../widgets/screen_transitions_widget.dart';
 
 class CarCardWidget extends StatefulWidget {
   const CarCardWidget(
@@ -10,11 +10,13 @@ class CarCardWidget extends StatefulWidget {
       required this.carId,
       required this.carTitle,
       this.isDanger = false,
-      this.message = ''});
+      this.message = '',
+      required this.matricule});
   final String carId;
   final String carTitle;
   final String message;
   final bool isDanger;
+  final String matricule;
   @override
   State<CarCardWidget> createState() => _CarCardWidgetState();
 }
@@ -26,7 +28,7 @@ class _CarCardWidgetState extends State<CarCardWidget> {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(SlideLeftRouteWidget(CarDetailScreen(
-          carId: widget.carId,
+          matricule: widget.matricule,
         )));
       },
       child: Container(
@@ -96,7 +98,7 @@ class _CarCardWidgetState extends State<CarCardWidget> {
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  widget.carId,
+                  widget.matricule,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

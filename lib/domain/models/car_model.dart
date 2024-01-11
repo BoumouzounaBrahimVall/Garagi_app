@@ -14,4 +14,13 @@ class CarModel {
     this.dateCreation = '',
     this.matricule = '',
   });
+  factory CarModel.fromJson(Map<String, dynamic> json) => CarModel(
+      carId: json["id"].toString(),
+      carTitle: json["model"].toString(),
+      matricule: json["matricule"].toString(),
+      isDanger: json["KilometrageActuel"]?.toInt() > 100 ? false : true);
+  @override
+  String toString() {
+    return "id: $carId model: $carTitle matricule: $matricule";
+  }
 }

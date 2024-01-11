@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
-import 'package:garagi_app/config/colors.dart';
-import 'package:garagi_app/screens/client/parameters/parameters_screen.dart';
-import 'package:garagi_app/screens/client/reservations/reservations_screen.dart';
-import 'package:garagi_app/screens/client/stations/stations_screen.dart';
-import '/screens/client/car_finder/car_finder_widget.dart';
-import 'package:garagi_app/widgets/app_bar/primary_appbar_widget.dart';
-import 'package:garagi_app/widgets/model_bottom_sheet_widget.dart';
+import '../../../config/colors.dart';
+import '../../../screens/client/parameters/parameters_screen.dart';
+import '../../../screens/client/reservations/reservations_screen.dart';
+import '../../../screens/client/stations/stations_screen.dart';
+import '../../../screens/client/car_finder/car_finder_widget.dart';
+import '../../../widgets/app_bar/primary_appbar_widget.dart';
+import '../../../widgets/model_bottom_sheet_widget.dart';
 
 class ClientHomeScreen extends StatefulWidget {
   const ClientHomeScreen({super.key});

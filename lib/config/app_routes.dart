@@ -5,7 +5,7 @@ import '../screens/client/home/client_home_screen.dart';
 //import '../screens/splash/splash_screen.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
-  '/': (context) => const ManagerHomeScreen(), //HomeScreen(),SplashScreen()
-  '/home': (context) => const ClientHomeScreen(), //HomeScreen(),
+  '/': (context) => const ClientHomeScreen(), //HomeScreen(),SplashScreen()
+  '/home': (context) => const ManagerHomeScreen(), //HomeScreen(),
   '/login': (context) => const SigninScreen(),
 };

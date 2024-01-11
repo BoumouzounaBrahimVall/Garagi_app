@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:garagi_app/data/car_data.dart';
-import '/screens/client/car_finder/widgets/car_card_widget.dart';
+import '../../../domain/models/car_model.dart';
+import '../../../domain/services/client/cars/get_client_cars.dart';
+import '../../../screens/client/car_finder/widgets/car_card_widget.dart';
+import '../../../domain/methods/greeting_method.dart';
 
 class CarFinderWidget extends StatefulWidget {
   const CarFinderWidget({super.key});
@@ -12,9 +14,16 @@ class CarFinderWidget extends StatefulWidget {
 
 class _CarFinderWidgetState extends State<CarFinderWidget> {
   ScrollController scrollController = ScrollController();
+  List<CarModel> clientCars = [];
   @override
   void initState() {
+    getCars();
     super.initState();
+  }
+
+  void getCars() async {
+    clientCars = await getClientCars();
+    setState(() {});
   }
 
   @override
@@ -33,11 +42,11 @@ class _CarFinderWidgetState extends State<CarFinderWidget> {
     final double itemWidth = width / 2;
     return Column(
       children: [
-        const Text(
+        Text(
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          'Bonjour Mr. Ahmed Salem 👋',
-          style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+          '${greetingMethod()} Mr. Ahmed Salem 👋',
+          style: const TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10,
@@ -58,7 +67,7 @@ class _CarFinderWidgetState extends State<CarFinderWidget> {
               ),
               crossAxisCount: columnCount,
               children: List.generate(
-                cars.length,
+                clientCars.length,
                 (int index) {
                   return AnimationConfiguration.staggeredGrid(
                     position: index,
@@ -75,10 +84,11 @@ class _CarFinderWidgetState extends State<CarFinderWidget> {
                         child: Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                             child: CarCardWidget(
-                              carId: cars[index].carId,
-                              carTitle: cars[index].carTitle,
-                              isDanger: cars[index].isDanger,
-                              message: cars[index].message,
+                              matricule: clientCars[index].matricule,
+                              carId: clientCars[index].carId,
+                              carTitle: clientCars[index].carTitle,
+                              isDanger: clientCars[index].isDanger,
+                              message: clientCars[index].message,
                             )),
                       ),
                     ),

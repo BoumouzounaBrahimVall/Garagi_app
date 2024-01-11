@@ -1,40 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:garagi_app/config/colors.dart';
-import 'package:garagi_app/config/consultations_fake_data.dart';
-import 'package:garagi_app/domain/models/choice_model.dart';
-import 'package:garagi_app/domain/models/consultation_model.dart';
-import 'package:garagi_app/screens/client/car_finder/consultation/consultation_screen.dart';
-import 'package:garagi_app/screens/client/car_finder/consultation/consultation_card_widget.dart';
-import 'package:garagi_app/widgets/app_bar/secondary_appbar_widget.dart';
-import 'package:garagi_app/widgets/screen_transitions_widget.dart';
+import '../../../config/colors.dart';
+import '../../../config/consultations_fake_data.dart';
+import '../../../domain/methods/transform_number.dart';
+import '../../../domain/models/car_model.dart';
+import '../../../domain/models/choice_model.dart';
+import '../../../domain/models/consultation_model.dart';
+import '../../../domain/services/client/cars/get_client_car_details.dart';
+import '../../../screens/client/car_finder/consultation/consultation_screen.dart';
+import '../../../screens/client/car_finder/consultation/consultation_card_widget.dart';
+import '../../../widgets/app_bar/secondary_appbar_widget.dart';
+import '../../../widgets/screen_transitions_widget.dart';
 
 class CarDetailScreen extends StatefulWidget {
-  const CarDetailScreen({super.key, required this.carId});
-  final String carId;
+  const CarDetailScreen({super.key, required this.matricule});
+  final String matricule;
   @override
   State<CarDetailScreen> createState() => _CarDetailScreenState();
 }
 
 class _CarDetailScreenState extends State<CarDetailScreen> {
-  Widget statsContainer({required String value, required String title}) {
-    return Container(
-        padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.fromLTRB(8, 20, 8, 8),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: AppColors.colorGray.withOpacity(0.6)),
-        child: Column(
-          children: [
-            Text(
-              value,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
-            Text(title)
-          ],
-        ));
-  }
-
   List<ChoiceModel> categories = [
     ChoiceModel(name: "Tous", index: 0, isSelected: true),
     ChoiceModel(name: "Vidanges", index: 1, isSelected: false),
@@ -42,6 +27,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
     ChoiceModel(name: "Reperations", index: 3, isSelected: false),
   ];
   List<ConsultationModel> filteredConsultations = [];
+  CarModel? carDetails;
 
   @override
   void initState() {
@@ -49,9 +35,13 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
     filteredConsultations = consultationFakeData;
   }
 
+  void getCarDetails() async {
+    carDetails = await getClientCarDetails("1234AA12");
+  }
+
   @override
   Widget build(BuildContext context) {
-    // double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: AppColors.colorWhite,
@@ -97,7 +87,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 ),
               ),
               // car details card
-              carDetailWidget(),
+              carDetailWidget(width),
               const Text(
                 "Historique",
                 style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
@@ -185,7 +175,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
     );
   }
 
-  Widget carDetailWidget() {
+  Widget carDetailWidget(double width) {
     return Container(
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.symmetric(vertical: 12),
@@ -242,30 +232,59 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                     icon: const Icon(
                       Icons.location_on,
                       size: 24.0,
+                      color: AppColors.colorWhite,
                     ),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateColor.resolveWith(
                             (states) => AppColors.colorYellow)),
                     label: const Text(
                       'Location',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.colorWhite,
+                      ),
                     ),
                   ),
                 ],
               )
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              statsContainer(value: "10", title: "Vidanges"),
-              statsContainer(value: "100", title: "KM restant"),
-              statsContainer(value: "700", title: "depances"),
-            ],
+          SizedBox(
+            width: width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                statsContainer(value: formatNumber(10), title: "Vidanges"),
+                statsContainer(
+                    value: formatNumber(9909990), title: "KM restant"),
+                statsContainer(value: formatNumber(560000), title: "depances"),
+              ],
+            ),
           ),
         ],
       ),
     );
+  }
+
+  Widget statsContainer({required String value, required String title}) {
+    return Container(
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.fromLTRB(8, 20, 8, 8),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: AppColors.colorGray.withOpacity(0.6)),
+        child: Column(
+          children: [
+            Text(
+              value,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+            )
+          ],
+        ));
   }
 }

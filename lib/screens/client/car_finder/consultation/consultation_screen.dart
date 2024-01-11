@@ -183,7 +183,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
               Padding(
                 padding: const EdgeInsets.all(12),
                 child: SizedBox(
-                  width: width * 0.45,
+                  width: width * 0.5,
                   height: height / 5,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

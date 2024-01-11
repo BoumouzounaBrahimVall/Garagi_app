@@ -69,7 +69,7 @@ class ConsultationCardWidget extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    width: width / 2.5,
+                    width: width / 3,
                     child: Text(
                       consultationTitle(type),
                       maxLines: 1,
@@ -113,10 +113,10 @@ class ConsultationCardWidget extends StatelessWidget {
                       showMoreAction!();
                     },
                     child: SizedBox(
-                      width: 80,
-                      child: Row(
+                      width: width / 4,
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
+                        children: [
                           Text(
                             'Voir plus',
                             style: TextStyle(

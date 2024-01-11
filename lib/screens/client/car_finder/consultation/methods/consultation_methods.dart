@@ -1,4 +1,4 @@
-import 'package:garagi_app/domain/models/consultation_model.dart';
+import '../../../../../domain/models/consultation_model.dart';
 
 String consultationSvgPath(ConsultationType type_) {
   switch (type_) {
