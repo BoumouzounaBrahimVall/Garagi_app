@@ -17,12 +17,9 @@ class CarServiceProvider extends ChangeNotifier {
   Future<void> fetchCarsByManager() async {
     final prefs = await SharedPreferences.getInstance();
     // get id of authentidated user from shared preferences
-    final idManager = prefs.get('id');
-    _cars = await _carsService
-        .getVehicleByManagerId(int.parse(idManager.toString()))
-        .then((value) {
-      return value.fold((l) => [], (r) => r);
-    });
+    final result = await _carsService.getVehicles();
+    result.fold((l) => messageStatus = l.message, (r) => _cars = r);
+
     notifyListeners();
   }
 
