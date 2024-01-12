@@ -1,3 +1,8 @@
+import 'dart:html';
+
+import 'client_model.dart';
+import 'compte_model.dart';
+
 class FormClientModel {
   String? nom;
   String? prenom;
@@ -9,6 +14,13 @@ class FormClientModel {
 
   bool isValid() {
     return nom != '' && prenom != '' && email != '' && phone != '';
+  }
+
+  String get fullName => '${nom!} ${prenom!}';
+  toClientModel() {
+    return ClientModel(
+        fullName: fullName,
+        compte: CompteModel(email: email, phoneNumber: phone));
   }
 
   @override
