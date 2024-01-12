@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'client_model.dart';
 import 'compte_model.dart';
 

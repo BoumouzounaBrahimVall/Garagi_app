@@ -40,12 +40,12 @@ class FormCarModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['marque'] = this.marque;
-    data['modele'] = this.modele;
-    data['annee'] = this.annee;
+    data['marque'] = this.marque; // todo: not taken
+    data['model'] = this.modele;
+    data['annee'] = this.annee; // todo: not taken
     data['matricule'] = this.matricule;
-    data['KilometrageActuel'] = this.kilometrage;
-    data['ownerId'] = this.ownerId;
+    data['km'] = this.kilometrage;
+    data['client_id'] = this.ownerId;
     return data;
   }
 }
