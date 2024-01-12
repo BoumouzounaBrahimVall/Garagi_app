@@ -34,7 +34,7 @@ class _StepFormVoitureState extends State<StepFormClient> {
           label: 'Selectionner Client',
           placeholder: 'Tapez Client',
           controller: TextEditingController(
-              text: context.watch<CarFormProvider>().getFormCarModel.clientId),
+              text: context.watch<CarFormProvider>().getFormCarModel.ownerId),
           onChanged: (value) {
             context.read<CarFormProvider>().setClientId(value);
           },

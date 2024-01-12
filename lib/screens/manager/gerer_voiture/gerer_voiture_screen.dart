@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:garagi_app/domain/models/car_model.dart';
+import 'package:garagi_app/provider/car_service_provider.dart';
 import 'package:garagi_app/widgets/car_item_info_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../../widgets/button_primary_widget.dart';
 import '../../../widgets/form/text_form_search_widget.dart';
@@ -20,6 +22,15 @@ class _GererVoitureScreenState extends State<GererVoitureScreen> {
       matricule: '2456AA12',
       carTitle: 'Audi Rs1',
       dateCreation: '12/12/2021');
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<CarServiceProvider>(context, listen: false)
+        .fetchCarsByManager();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

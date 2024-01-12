@@ -56,10 +56,7 @@ class _StepFormVoitureState extends State<StepFormVoiture> {
           label: 'Immatriculation',
           placeholder: 'Tapez Immatriculation',
           controller: TextEditingController(
-              text: context
-                  .watch<CarFormProvider>()
-                  .getFormCarModel
-                  .immatriculation),
+              text: context.watch<CarFormProvider>().getFormCarModel.matricule),
           onChanged: (value) {
             context.read<CarFormProvider>().setImmatriculation(value);
           },
@@ -67,12 +64,17 @@ class _StepFormVoitureState extends State<StepFormVoiture> {
         ),
         const SizedBox(height: 16),
         TextFormWithLabelWidget(
-          label: 'Anneé',
-          placeholder: 'Tapez Anneé',
+          label: 'Kilometrage',
+          keyboardType: TextInputType.number,
+          placeholder: 'Tapez Kilometrage',
           controller: TextEditingController(
-              text: context.watch<CarFormProvider>().getFormCarModel.annee),
+              text: context
+                  .watch<CarFormProvider>()
+                  .getFormCarModel
+                  .kilometrage
+                  .toString()),
           onChanged: (value) {
-            context.read<CarFormProvider>().setAnnee(value);
+            context.read<CarFormProvider>().setKilometrage(value);
           },
           validator: () => null,
         )

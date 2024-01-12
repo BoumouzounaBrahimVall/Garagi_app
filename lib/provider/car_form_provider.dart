@@ -29,23 +29,30 @@ class CarFormProvider extends ChangeNotifier {
   String get getAnnee => _formCarModel.annee ?? '';
 
   void setImmatriculation(String immatriculation) {
-    _formCarModel.immatriculation = immatriculation;
+    _formCarModel.matricule = immatriculation;
     notifyListeners();
   }
 
-  String get getImmatriculation => _formCarModel.immatriculation ?? '';
+  String get getImmatriculation => _formCarModel.matricule ?? '';
 
   void setFormCarModel(FormCarModel formCarModel) {
     _formCarModel = formCarModel;
     notifyListeners();
   }
 
-  String get getClientId => _formCarModel.clientId ?? '';
+  String get getClientId => _formCarModel.ownerId ?? '';
 
   void setClientId(String clientId) {
-    _formCarModel.clientId = clientId;
+    _formCarModel.ownerId = clientId;
     notifyListeners();
   }
+
+  void setKilometrage(int kilometrage) {
+    _formCarModel.kilometrage = kilometrage;
+    notifyListeners();
+  }
+
+  int get getKilometrage => _formCarModel.kilometrage ?? 0;
 
   void clear() {
     _formCarModel.clear();

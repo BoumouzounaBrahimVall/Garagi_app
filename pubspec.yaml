@@ -48,6 +48,7 @@ dependencies:
   form_builder_validators: ^9.1.0
   flutter_password_strength: ^0.1.6
   dio: ^5.4.0
+  dartz: ^0.10.1
 
 
 dev_dependencies:

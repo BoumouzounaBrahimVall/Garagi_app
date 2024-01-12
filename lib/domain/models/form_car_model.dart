@@ -2,38 +2,40 @@ class FormCarModel {
   String? marque;
   String? modele;
   String? annee;
-  String? immatriculation;
-  String? clientId;
+  int? kilometrage;
+  String? matricule;
+  String? ownerId;
 
   FormCarModel(
       {this.marque,
-      this.clientId,
+      this.ownerId,
       this.modele,
       this.annee,
-      this.immatriculation});
+      this.kilometrage = 0,
+      this.matricule});
 
   FormCarModel.fromJson(Map<String, dynamic> json) {
     marque = json['marque'];
     modele = json['modele'];
     annee = json['annee'];
-    immatriculation = json['immatriculation'];
-    clientId = json['clientId'];
+    matricule = json['matricule'];
+    ownerId = json['clientId'];
   }
   bool isValid() {
-    return marque != '' && modele != '' && annee != '' && immatriculation != '';
+    return marque != '' && modele != '' && annee != '' && matricule != '';
   }
 
   void clear() {
     marque = '';
     modele = '';
     annee = '';
-    immatriculation = '';
-    clientId = '';
+    matricule = '';
+    ownerId = '';
   }
 
   @override
   String toString() {
-    return ' marque: $marque, modele: $modele, annee: $annee, immatriculation: $immatriculation, clientId: $clientId';
+    return ' marque: $marque, modele: $modele, annee: $annee, immatriculation: $matricule, ownerId: $ownerId';
   }
 
   Map<String, dynamic> toJson() {
@@ -41,8 +43,9 @@ class FormCarModel {
     data['marque'] = this.marque;
     data['modele'] = this.modele;
     data['annee'] = this.annee;
-    data['immatriculation'] = this.immatriculation;
-    data['clientId'] = this.clientId;
+    data['matricule'] = this.matricule;
+    data['KilometrageActuel'] = this.kilometrage;
+    data['ownerId'] = this.ownerId;
     return data;
   }
 }
