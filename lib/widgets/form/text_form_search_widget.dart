@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class TextFormSearchWidget extends StatefulWidget {
-  const TextFormSearchWidget(
-      {super.key,
+class TextFormSearchStyled extends StatefulWidget {
+  TextFormSearchStyled(
+      {Key? key,
       required this.label,
       required this.placeholder,
       required this.icon,
@@ -14,7 +14,8 @@ class TextFormSearchWidget extends StatefulWidget {
       this.decoration,
       this.obscureText,
       this.onChanged,
-      this.initialValue});
+      this.initialValue})
+      : super(key: key);
   final String label;
   final String placeholder;
   final IconData icon;
@@ -25,17 +26,18 @@ class TextFormSearchWidget extends StatefulWidget {
   final Function validator;
   final InputDecoration? decoration;
   final bool? obscureText;
-  final Function? onChanged;
+  Function? onChanged;
   final String? initialValue;
 
   @override
-  _TextFormSearchWidgetState createState() => _TextFormSearchWidgetState();
+  _TextFormSearchStyled createState() => _TextFormSearchStyled();
 }
 
-class _TextFormSearchWidgetState extends State<TextFormSearchWidget> {
+class _TextFormSearchStyled extends State<TextFormSearchStyled> {
   bool _isPasswordVisible = false;
   @override
   void initState() {
+    // TODO: implement initState
     _isPasswordVisible = widget.isPassword;
     super.initState();
   }
@@ -56,7 +58,7 @@ class _TextFormSearchWidgetState extends State<TextFormSearchWidget> {
                 color: Color(0xffECECEC), // Color of the border
                 width: 1, // Width of the border
               ),
-              borderRadius: const BorderRadius.all(
+              borderRadius: BorderRadius.all(
                   Radius.circular(20.0)), // Optional: Add rounded corners
 
               color: Colors.white,
@@ -69,7 +71,7 @@ class _TextFormSearchWidgetState extends State<TextFormSearchWidget> {
                 controller: widget.controller,
                 keyboardType: widget.keyboardType,
                 onTap: () => widget.action,
-                obscureText: _isPasswordVisible,
+                obscureText: _isPasswordVisible ?? false,
                 style: Theme.of(context).textTheme.bodyMedium,
                 decoration: InputDecoration(
                     suffixIcon: widget.isPassword
@@ -97,7 +99,7 @@ class _TextFormSearchWidgetState extends State<TextFormSearchWidget> {
                       color: Color(0xff112A59),
                     ),
                     fillColor: const Color.fromARGB(255, 0, 0, 0),
-                    hintText: widget.placeholder,
+                    hintText: widget.placeholder ?? ' ',
                     hintStyle:
                         TextStyle(color: Color(0xff879EA4), fontSize: 18)),
               ),

@@ -6,13 +6,14 @@ import 'package:garagi_app/domain/models/client_model.dart';
 import 'package:garagi_app/domain/models/failure_success.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/form_client_model.dart';
 import 'client_service.dart';
 
 class HttpClientService implements ClientService {
   final Dio _dio = Dio();
 
   @override
-  Future<Either<Failure, Success>> createClient(ClientModel client) async {
+  Future<Either<Failure, Success>> createClient(FormClientModel client) async {
     String baseUrl = '${AppConstants.backendUrl}/clients/create';
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -25,10 +26,11 @@ class HttpClientService implements ClientService {
           'authorization': 'Bearer $token',
         }),
       );
-      return Right(Success(response.data['message']));
+
+      return Right(Success("Client created successfully"));
     } on DioException catch (e) {
       debugPrint(e.toString());
-      return Left(Failure(e.response?.data['message']));
+      return Left(Failure("Client not created"));
     }
   }
 
@@ -76,9 +78,50 @@ class HttpClientService implements ClientService {
   }
 
   @override
-  Future<Either<Failure, List<ClientModel>>> getClientList() {
-    // TODO: implement getClientList
-    throw UnimplementedError();
+  Future<Either<Failure, List<ClientModel>>> getClientList() async {
+    String baseUrl = '${AppConstants.backendUrl}/clients/getAll';
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+      final response = await _dio.get(
+        baseUrl,
+        options: Options(headers: {
+          'authorization': 'Bearer $token',
+        }),
+      );
+      List<ClientModel> clients = [];
+      for (var item in response.data) {
+        clients.add(ClientModel.fromJson(item));
+      }
+      return Right(clients);
+    } on DioException catch (e) {
+      debugPrint(e.toString());
+      return Left(Failure(e.response?.data['message']));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ClientModel>>> getClientListBySubString(
+      String substring) async {
+    String baseUrl = '${AppConstants.backendUrl}/clients/substring/$substring';
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+      final response = await _dio.get(
+        baseUrl,
+        options: Options(headers: {
+          'authorization': 'Bearer $token',
+        }),
+      );
+      List<ClientModel> clients = [];
+      for (var item in response.data) {
+        clients.add(ClientModel.fromJson(item));
+      }
+      return Right(clients);
+    } on DioException catch (e) {
+      debugPrint(e.toString());
+      return Left(Failure(e.response?.data['message']));
+    }
   }
 
   @override

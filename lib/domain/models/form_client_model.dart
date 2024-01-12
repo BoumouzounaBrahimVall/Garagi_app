@@ -26,4 +26,15 @@ class FormClientModel {
     // TODO: implement toString
     return 'nom: $nom, prenom: $prenom, email: $email, phone: $phone';
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+
+    data['email'] = email;
+    data['password'] = '12345678';
+    data['role'] = 0;
+    data['phoneNumber'] = phone;
+    data['fullname'] = fullName;
+    return data;
+  }
 }

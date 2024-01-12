@@ -14,7 +14,7 @@ class CarServiceProvider extends ChangeNotifier {
   List<CarModel> _cars = [];
   List<CarModel> get cars => _cars;
 
-  Future<void> fetchCarsByManager() async {
+  Future<void> fetchVehicles() async {
     final prefs = await SharedPreferences.getInstance();
     // get id of authentidated user from shared preferences
     final result = await _carsService.getVehicles();
@@ -23,12 +23,9 @@ class CarServiceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void filterCard(String query) {
-    final filteredCars = _cars
-        .where(
-            (car) => car.carTitle.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-    _cars = filteredCars;
+  Future<void> filterCars(String substring) async {
+    final result = await _carsService.getVehiclesBySubString(substring);
+    result.fold((l) => messageStatus = l.message, (r) => _cars = r);
     notifyListeners();
   }
 

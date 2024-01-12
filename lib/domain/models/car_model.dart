@@ -1,3 +1,5 @@
+import '../methods/date_transform.dart';
+
 class CarModel {
   final String carId;
   final String carTitle;
@@ -18,7 +20,9 @@ class CarModel {
       carId: json["id"].toString(),
       carTitle: json["model"].toString(),
       matricule: json["matricule"].toString(),
+      dateCreation: formatDateToString(json["createdAt"].toString()),
       isDanger: json["KilometrageActuel"]?.toInt() > 100 ? false : true);
+
   @override
   String toString() {
     return "id: $carId model: $carTitle matricule: $matricule";

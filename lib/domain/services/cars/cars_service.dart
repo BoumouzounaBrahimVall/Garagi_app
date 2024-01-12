@@ -11,4 +11,6 @@ abstract class CarsService {
   Future<Either<Failure, CarModel>> getVehicleById(String matricule);
   Future<Either<Failure, List<CarModel>>> getVehicleByOwnerId(int ownerId);
   Future<Either<Failure, List<CarModel>>> getVehicles();
+  Future<Either<Failure, List<CarModel>>> getVehiclesBySubString(
+      String substring);
 }

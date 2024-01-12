@@ -11,6 +11,8 @@ import '../provider/local_provider.dart';
 import '../domain/change_notifiers/auth_model.dart';
 import 'config/theme.dart';
 import 'provider/car_form_provider.dart';
+import 'provider/car_service_provider.dart';
+import 'provider/client_service_provider.dart';
 
 //    _____                           _____    _
 //   / ____|                         / ____|  |_|
@@ -25,6 +27,18 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthModel()),
+        ChangeNotifierProvider(
+          create: (_) => ClientFormProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CarFormProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CarServiceProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ClientServiceProvider(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -50,39 +64,20 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => LocaleProvider(),
-        builder: (context, child) {
-          final provider = Provider.of<LocaleProvider>(context);
-          return MultiProvider(
-            providers: [
-              /**
-                ChangeNotifierProvider(
-                create: (_) => KeyboardProvider(),
-              ),
-               */
-              ChangeNotifierProvider(
-                create: (_) => ClientFormProvider(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => CarFormProvider(),
-              ),
-            ],
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: themeData,
-              initialRoute: '/',
-              routes: appRoutes,
-              locale: provider.locale,
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: themeData,
+      initialRoute: '/',
+      routes: appRoutes,
+      /* locale: provider.locale,
               supportedLocales: L10n.allLocales,
               localizationsDelegates: const [
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
-              ],
-            ),
-          );
-        },
-      );
+              ],*/
+    );
+  }
 }
