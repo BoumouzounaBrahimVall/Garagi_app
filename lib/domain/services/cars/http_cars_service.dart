@@ -135,7 +135,31 @@ class HttpCarsService implements CarsService {
         }),
       );
       List<CarModel> cars = [];
-      for (var car in response.data['data']) {
+      for (var car in response.data) {
+        cars.add(CarModel.fromJson(car));
+      }
+      return Right(cars);
+    } on DioException catch (e) {
+      debugPrint(e.toString());
+      return Left(Failure(e.response?.data['message']));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CarModel>>> getVehiclesBySubString(
+      String substring) async {
+    String baseUrl = '${AppConstants.backendUrl}/cars/substring/$substring';
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+      final response = await _dio.get(
+        baseUrl,
+        options: Options(headers: {
+          'authorization': 'Bearer $token',
+        }),
+      );
+      List<CarModel> cars = [];
+      for (var car in response.data) {
         cars.add(CarModel.fromJson(car));
       }
       return Right(cars);

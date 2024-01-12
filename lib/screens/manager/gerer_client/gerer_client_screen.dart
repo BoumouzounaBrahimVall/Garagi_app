@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:garagi_app/provider/client_service_provider.dart';
 import 'package:garagi_app/screens/manager/gerer_client/add_client_screen.dart';
 import 'package:garagi_app/widgets/button_primary_widget.dart';
+import 'package:provider/provider.dart';
 
+import '../../../provider/car_service_provider.dart';
 import '../../../widgets/form/text_form_search_widget.dart';
 import '../../../widgets/user_item_info_widget.dart';
 
@@ -14,12 +17,19 @@ class GererClientScreen extends StatefulWidget {
 }
 
 class _GererClientScreenState extends State<GererClientScreen> {
-  UserModel user = UserModel(
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<ClientServiceProvider>().fetchClients();
+  }
+
+  /* UserModel user = UserModel(
       id: 1,
       name: 'John Doe',
       email: 'jhon@doe.com',
       dateCreation: '12/12/2021',
-      phoneNumber: '1234567890');
+      phoneNumber: '1234567890');*/
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -28,38 +38,46 @@ class _GererClientScreenState extends State<GererClientScreen> {
       children: [
         SingleChildScrollView(
           padding: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Gérer client",
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 16),
-              TextFormSearchWidget(
-                icon: Icons.search,
-                label: 'chercher client',
-                placeholder: 'tapez un mot',
-                validator: () => null,
-                onChanged: (value) {},
-              ),
-              const SizedBox(height: 32),
-              Text(
-                "Liste clients",
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                height: height * 0.6,
-                child: ListView.separated(
-                    itemBuilder: (context, index) =>
-                        UserItemInfoWidget(user: user),
-                    separatorBuilder: (context, index) => SizedBox(height: 16),
-                    itemCount: 10),
-              ),
-              const SizedBox(height: 60),
-            ],
-          ),
+          child: Consumer<ClientServiceProvider>(
+              builder: (context, clientService, child) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Gérer client",
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                const SizedBox(height: 16),
+                TextFormSearchStyled(
+                  icon: Icons.search,
+                  label: 'chercher client',
+                  placeholder: 'tapez un mot',
+                  validator: () => null,
+                  onChanged: (value) {
+                    debugPrint(value);
+                    context.read<ClientServiceProvider>().filterClients(value);
+                    //filterCars
+                  },
+                ),
+                const SizedBox(height: 32),
+                Text(
+                  "Liste clients",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  height: height * 0.6,
+                  child: ListView.separated(
+                      itemBuilder: (context, index) => UserItemInfoWidget(
+                          user: clientService.clients[index]),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 16),
+                      itemCount: clientService.clients.length),
+                ),
+                const SizedBox(height: 60),
+              ],
+            );
+          }),
         ),
         Positioned(
           bottom: 10,

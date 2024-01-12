@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:garagi_app/config/colors.dart';
 
+import '../domain/models/client_model.dart';
 import '../screens/manager/gerer_client/gerer_client_screen.dart';
 import 'button_secondary_widget.dart';
 
 class UserItemInfoWidget extends StatelessWidget {
   const UserItemInfoWidget({required this.user, super.key});
-  final UserModel user;
+  final ClientModel user;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -42,7 +43,7 @@ class UserItemInfoWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    user.name ?? '',
+                    user.fullName ?? '',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   SizedBox(height: 8),
@@ -102,7 +103,7 @@ class UserItemInfoWidget extends StatelessWidget {
                     width: 4,
                   ),
                   Text(
-                    user.dateCreation ?? '',
+                    user.dateCreated ?? '',
                     style: Theme.of(context).textTheme.bodySmall!.merge(
                         TextStyle(fontSize: 14, fontWeight: FontWeight.w100)),
                   ),

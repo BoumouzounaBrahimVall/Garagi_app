@@ -27,50 +27,58 @@ class _GererVoitureScreenState extends State<GererVoitureScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<CarServiceProvider>(context, listen: false)
-        .fetchCarsByManager();
+    context.read<CarServiceProvider>().fetchVehicles();
   }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    List<CarModel> cars = context.watch<CarServiceProvider>().cars;
     return Stack(
       children: [
         SingleChildScrollView(
           padding: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Gérer voiture",
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 16),
-              TextFormSearchWidget(
-                icon: Icons.search,
-                label: 'chercher voiture',
-                placeholder: 'tapez un mot',
-                validator: () => null,
-                onChanged: (value) {},
-              ),
-              const SizedBox(height: 32),
-              Text(
-                "Liste voiture",
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                height: height * 0.6,
-                child: ListView.separated(
-                    itemBuilder: (context, index) =>
-                        CarItemInfoWidget(car: car),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 16),
-                    itemCount: 10),
-              ),
-              const SizedBox(height: 60),
-            ],
+          child: Consumer<CarServiceProvider>(
+            builder: (context, carsService, child) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Gérer voiture",
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormSearchStyled(
+                    icon: Icons.search,
+                    label: 'chercher voiture',
+                    placeholder: 'tapez un mot',
+                    validator: () => null,
+                    onChanged: (value) {
+                      debugPrint(value);
+                      context.read<CarServiceProvider>().filterCars(value);
+                      //filterCars
+                    },
+                  ),
+                  const SizedBox(height: 32),
+                  Text(
+                    "Liste voiture",
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: height * 0.6,
+                    child: ListView.separated(
+                        itemBuilder: (context, index) =>
+                            CarItemInfoWidget(car: cars[index]),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 16),
+                        itemCount: cars.length),
+                  ),
+                  const SizedBox(height: 60),
+                ],
+              );
+            },
           ),
         ),
         Positioned(

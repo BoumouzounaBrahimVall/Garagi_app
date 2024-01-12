@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:garagi_app/provider/client_form_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../domain/models/form_client_model.dart';
+import '../../../provider/client_service_provider.dart';
 import '../../../widgets/button_primary_widget.dart';
 import '../../../widgets/form/text_form_with_label_widget.dart';
 import '../../layout/secondary_layout_screen.dart';
@@ -17,6 +19,7 @@ class _AddClientScreenState extends State<AddClientScreen> {
   @override
   Widget build(BuildContext context) {
     //double height = MediaQuery.of(context).size.height;
+    String messageStatus = context.watch<ClientServiceProvider>().messageStatus;
     double width = MediaQuery.of(context).size.width;
     return SecondaryLayoutScreen(
         appBarTitle: "Ajouter un client",
@@ -113,10 +116,16 @@ class _AddClientScreenState extends State<AddClientScreen> {
               left: width * 0.05,
               child: ButtonPrimaryWidget(
                   title: 'Enregistrer',
-                  onPressed: () => {
-                        debugPrint(
-                            'Client ${context.read<ClientFormProvider>().getFormClientModel}')
-                      }),
+                  onPressed: () {
+                    FormClientModel form =
+                        context.read<ClientFormProvider>().getFormClientModel;
+
+                    context.read<ClientServiceProvider>().createClient(form);
+                    context
+                        .read<ClientFormProvider>()
+                        .setFormClientModel(FormClientModel());
+                    debugPrint('Client ${form.toJson()}');
+                  }),
             )
           ],
         ));
