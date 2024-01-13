@@ -34,62 +34,71 @@ class _GererClientScreenState extends State<GererClientScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          padding: const EdgeInsets.all(8),
-          child: Consumer<ClientServiceProvider>(
-              builder: (context, clientService, child) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Gérer client",
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                const SizedBox(height: 16),
-                TextFormSearchStyled(
-                  icon: Icons.search,
-                  label: 'chercher client',
-                  placeholder: 'tapez un mot',
-                  validator: () => null,
-                  onChanged: (value) {
-                    debugPrint(value);
-                    context.read<ClientServiceProvider>().filterClients(value);
-                    //filterCars
-                  },
-                ),
-                const SizedBox(height: 32),
-                Text(
-                  "Liste clients",
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  height: height * 0.6,
-                  child: ListView.separated(
-                      itemBuilder: (context, index) => UserItemInfoWidget(
-                          user: clientService.clients[index]),
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 16),
-                      itemCount: clientService.clients.length),
-                ),
-                const SizedBox(height: 60),
-              ],
-            );
-          }),
-        ),
-        Positioned(
-          bottom: 10,
-          left: width * 0.025,
-          child: ButtonPrimaryWidget(
-              title: 'Ajouter Client',
-              onPressed: () => {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const AddClientScreen()))
-                  }),
-        )
-      ],
+    double keyboard = MediaQuery.of(context).viewInsets.bottom;
+
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(8),
+            child: Consumer<ClientServiceProvider>(
+                builder: (context, clientService, child) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Gérer client",
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormSearchStyled(
+                    icon: Icons.search,
+                    label: 'chercher client',
+                    placeholder: 'tapez un mot',
+                    validator: () => null,
+                    onChanged: (value) {
+                      debugPrint(value);
+                      context
+                          .read<ClientServiceProvider>()
+                          .filterClients(value);
+                      //filterCars
+                    },
+                  ),
+                  const SizedBox(height: 32),
+                  Text(
+                    "Liste clients",
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: height * 0.6,
+                    child: ListView.separated(
+                        itemBuilder: (context, index) => UserItemInfoWidget(
+                            user: clientService.clients[index]),
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: 16),
+                        itemCount: clientService.clients.length),
+                  ),
+                  const SizedBox(height: 60),
+                ],
+              );
+            }),
+          ),
+          Visibility(
+            visible: keyboard == 0.0,
+            child: Positioned(
+              bottom: 70,
+              child: ButtonPrimaryWidget(
+                  title: 'Ajouter Client',
+                  onPressed: () => {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const AddClientScreen()))
+                      }),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

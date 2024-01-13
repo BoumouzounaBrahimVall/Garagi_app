@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TextFormWithLabelWidget extends StatefulWidget {
   const TextFormWithLabelWidget(
-      {Key? key,
+      {super.key,
       required this.label,
       required this.placeholder,
       this.icon,
@@ -13,8 +13,7 @@ class TextFormWithLabelWidget extends StatefulWidget {
       required this.validator,
       this.decoration,
       this.obscureText,
-      this.onChanged})
-      : super(key: key);
+      this.onChanged});
   final String label;
   final String placeholder;
   final IconData? icon;
@@ -28,15 +27,24 @@ class TextFormWithLabelWidget extends StatefulWidget {
   final Function? onChanged;
 
   @override
-  _TextFormWithLabelWidgetState createState() =>
+  State<TextFormWithLabelWidget> createState() =>
       _TextFormWithLabelWidgetState();
 }
 
 class _TextFormWithLabelWidgetState extends State<TextFormWithLabelWidget> {
   bool _isPasswordVisible = false;
+  late TextEditingController controller;
   @override
   void initState() {
     _isPasswordVisible = widget.isPassword;
+    if (widget.controller != null) {
+      controller = widget.controller!;
+    } else {
+      controller = TextEditingController();
+    }
+    controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: controller.text.length));
+
     super.initState();
   }
 
@@ -73,8 +81,9 @@ class _TextFormWithLabelWidgetState extends State<TextFormWithLabelWidget> {
                 ),
                 child: Center(
                   child: TextFormField(
+                    autofocus: false,
                     validator: ((value) => widget.validator(value)),
-                    controller: widget.controller,
+                    controller: controller, //widget.controller,
                     keyboardType: widget.keyboardType,
                     onTap: () => widget.action,
                     obscureText: _isPasswordVisible,

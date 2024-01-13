@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TextFormSearchStyled extends StatefulWidget {
-  TextFormSearchStyled(
-      {Key? key,
+  const TextFormSearchStyled(
+      {super.key,
       required this.label,
       required this.placeholder,
       required this.icon,
@@ -14,8 +14,7 @@ class TextFormSearchStyled extends StatefulWidget {
       this.decoration,
       this.obscureText,
       this.onChanged,
-      this.initialValue})
-      : super(key: key);
+      this.initialValue});
   final String label;
   final String placeholder;
   final IconData icon;
@@ -26,22 +25,38 @@ class TextFormSearchStyled extends StatefulWidget {
   final Function validator;
   final InputDecoration? decoration;
   final bool? obscureText;
-  Function? onChanged;
+  final Function? onChanged;
   final String? initialValue;
 
   @override
-  _TextFormSearchStyled createState() => _TextFormSearchStyled();
+  State<TextFormSearchStyled> createState() => _TextFormSearchStyled();
 }
 
 class _TextFormSearchStyled extends State<TextFormSearchStyled> {
   bool _isPasswordVisible = false;
+  late TextEditingController controller;
+  final FocusNode _focusNode = FocusNode();
+
   @override
   void initState() {
-    // TODO: implement initState
     _isPasswordVisible = widget.isPassword;
+    if (widget.controller != null) {
+      controller = widget.controller!;
+    } else {
+      controller = TextEditingController();
+    }
+    controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: controller.text.length));
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Row(
@@ -65,14 +80,16 @@ class _TextFormSearchStyled extends State<TextFormSearchStyled> {
             ),
             child: Center(
               child: TextFormField(
-                onChanged: ((value) => widget.onChanged!(value)),
+                autofocus: false,
+                focusNode: _focusNode,
                 validator: ((value) => widget.validator(value)),
                 initialValue: widget.initialValue,
-                controller: widget.controller,
+                controller: controller, //widget.controller,
                 keyboardType: widget.keyboardType,
                 onTap: () => widget.action,
-                obscureText: _isPasswordVisible ?? false,
+                obscureText: _isPasswordVisible,
                 style: Theme.of(context).textTheme.bodyMedium,
+                onChanged: ((value) => widget.onChanged!(value)),
                 decoration: InputDecoration(
                     suffixIcon: widget.isPassword
                         ? IconButton(
@@ -99,7 +116,7 @@ class _TextFormSearchStyled extends State<TextFormSearchStyled> {
                       color: Color(0xff112A59),
                     ),
                     fillColor: const Color.fromARGB(255, 0, 0, 0),
-                    hintText: widget.placeholder ?? ' ',
+                    hintText: widget.placeholder,
                     hintStyle:
                         TextStyle(color: Color(0xff879EA4), fontSize: 18)),
               ),

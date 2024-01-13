@@ -107,10 +107,27 @@ class _AddClientScreenState extends State<AddClientScreen> {
                       onChanged: (value) {
                         context.read<ClientFormProvider>().setPhone(value);
                       }),
+                  const SizedBox(height: 20),
+                  ButtonPrimaryWidget(
+                      title: 'Enregistrer',
+                      onPressed: () {
+                        FormClientModel form = context
+                            .read<ClientFormProvider>()
+                            .getFormClientModel;
+
+                        context
+                            .read<ClientServiceProvider>()
+                            .createClient(form);
+                        context
+                            .read<ClientFormProvider>()
+                            .setFormClientModel(FormClientModel());
+                        debugPrint('Client ${form.toJson()}');
+                      }),
                   const SizedBox(height: 100),
                 ],
               ),
             ),
+            /*
             Positioned(
               bottom: 10,
               left: width * 0.05,
@@ -126,7 +143,7 @@ class _AddClientScreenState extends State<AddClientScreen> {
                         .setFormClientModel(FormClientModel());
                     debugPrint('Client ${form.toJson()}');
                   }),
-            )
+            )*/
           ],
         ));
   }

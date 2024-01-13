@@ -9,5 +9,5 @@ class AppConstants {
   static const double buttonRadiusValue = 10;
   static const double inputRadiusValue = 10;
   static const double appBarHeightValue = 80.0;
-  static const String backendUrl = "http://192.168.1.20:3000";
+  static const String backendUrl = "http://192.168.2.100:3000";
 }

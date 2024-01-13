@@ -25,6 +25,15 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
   Color iconColor = AppColors.colorGray;
   Color selectedIconColor = AppColors.colorYellow;
   int _currentIndex = 0;
+  late var scaffoldKey;
+
+  @override
+  void initState() {
+    scaffoldKey = GlobalKey<ScaffoldState>();
+
+    super.initState();
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -35,7 +44,6 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    var scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: scaffoldKey,
       drawerScrimColor: Colors.black38,
