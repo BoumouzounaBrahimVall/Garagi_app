@@ -21,7 +21,12 @@ class CarModel {
       carTitle: json["model"].toString(),
       matricule: json["matricule"].toString(),
       dateCreation: formatDateToString(json["createdAt"].toString()),
-      isDanger: json["KilometrageActuel"]?.toInt() > 100 ? false : true);
+      message: json["KilometrageActuel"]?.toInt() > 100
+          ? ""
+          : json["KilometrageActuel"]?.toInt() > 0
+              ? "Reste 100km"
+              : "Besion d'une Vidange",
+      isDanger: json["KilometrageActuel"]?.toInt() < 10 ? true : false);
 
   @override
   String toString() {

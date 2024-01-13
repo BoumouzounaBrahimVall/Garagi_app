@@ -11,8 +11,10 @@ class TextFormSearchStyled extends StatefulWidget {
       this.action,
       this.isPassword = false,
       required this.validator,
+      this.onTapOutside,
       this.decoration,
       this.obscureText,
+      this.focusNode,
       this.onChanged,
       this.initialValue});
   final String label;
@@ -21,13 +23,14 @@ class TextFormSearchStyled extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final Function? action;
+  final Function? onTapOutside;
   final bool isPassword;
   final Function validator;
   final InputDecoration? decoration;
   final bool? obscureText;
   final Function? onChanged;
   final String? initialValue;
-
+  final FocusNode? focusNode;
   @override
   State<TextFormSearchStyled> createState() => _TextFormSearchStyled();
 }
@@ -35,7 +38,7 @@ class TextFormSearchStyled extends StatefulWidget {
 class _TextFormSearchStyled extends State<TextFormSearchStyled> {
   bool _isPasswordVisible = false;
   late TextEditingController controller;
-  final FocusNode _focusNode = FocusNode();
+  late FocusNode _focusNode;
 
   @override
   void initState() {
@@ -44,6 +47,11 @@ class _TextFormSearchStyled extends State<TextFormSearchStyled> {
       controller = widget.controller!;
     } else {
       controller = TextEditingController();
+    }
+    if (widget.focusNode != null) {
+      _focusNode = widget.focusNode!;
+    } else {
+      _focusNode = FocusNode();
     }
     controller.selection = TextSelection.fromPosition(
         TextPosition(offset: controller.text.length));
@@ -82,11 +90,18 @@ class _TextFormSearchStyled extends State<TextFormSearchStyled> {
               child: TextFormField(
                 autofocus: false,
                 focusNode: _focusNode,
+                onTapOutside: (event) {
+                  if (widget.onTapOutside != null) {
+                    widget.onTapOutside!();
+                  }
+                  FocusScope.of(context).unfocus();
+                },
+
                 validator: ((value) => widget.validator(value)),
                 initialValue: widget.initialValue,
                 controller: controller, //widget.controller,
                 keyboardType: widget.keyboardType,
-                onTap: () => widget.action,
+                onTap: () => widget.action != null ? widget.action!() : () {},
                 obscureText: _isPasswordVisible,
                 style: Theme.of(context).textTheme.bodyMedium,
                 onChanged: ((value) => widget.onChanged!(value)),

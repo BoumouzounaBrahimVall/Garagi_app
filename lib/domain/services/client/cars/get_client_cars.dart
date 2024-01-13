@@ -5,7 +5,7 @@ import 'package:garagi_app/domain/models/car_model.dart';
 Future<List<CarModel>> getClientCars() async {
   final dio = Dio();
   Response response;
-  String clientId = '1';
+  String clientId = '2';
   try {
     response = await dio.get('${AppConstants.backendUrl}/cars/$clientId');
     if (response.statusCode == 200) {
