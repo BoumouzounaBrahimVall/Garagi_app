@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:garagi_app/widgets/scrolling_text_widget.dart';
 import '../../../../config/colors.dart';
-import '../../../../screens/client/car_finder/car_detail_screen.dart';
-import '../../../../widgets/screen_transitions_widget.dart';
 
 class CarCardWidget extends StatefulWidget {
   const CarCardWidget(
@@ -11,12 +10,14 @@ class CarCardWidget extends StatefulWidget {
       required this.carTitle,
       this.isDanger = false,
       this.message = '',
-      required this.matricule});
+      required this.matricule,
+      required this.onTap});
   final String carId;
   final String carTitle;
   final String message;
   final bool isDanger;
   final String matricule;
+  final Function onTap;
   @override
   State<CarCardWidget> createState() => _CarCardWidgetState();
 }
@@ -27,9 +28,7 @@ class _CarCardWidgetState extends State<CarCardWidget> {
     double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(SlideLeftRouteWidget(CarDetailScreen(
-          matricule: widget.matricule,
-        )));
+        widget.onTap();
       },
       child: Container(
         margin: EdgeInsets.only(
@@ -56,28 +55,25 @@ class _CarCardWidgetState extends State<CarCardWidget> {
           children: [
             // for notifications
             Container(
-              width: width / 2,
-              height: 25,
-              padding: const EdgeInsets.only(left: 6, right: 6),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadiusDirectional.only(
-                    topEnd: Radius.circular(15),
-                    topStart: Radius.circular(15),
-                  ),
-                  color: widget.message.isEmpty
-                      ? Colors.transparent
-                      : widget.isDanger
-                          ? AppColors.colorRed
-                          : AppColors.colorYellow),
-              child: Text(
-                widget.message, //'vidange apres 100km',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    color: AppColors.colorWhite, fontWeight: FontWeight.w600),
-              ),
-            ),
+                width: width / 2,
+                height: 25,
+                padding: const EdgeInsets.only(left: 6, right: 6),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadiusDirectional.only(
+                      topEnd: Radius.circular(15),
+                      topStart: Radius.circular(15),
+                    ),
+                    color: widget.message.isEmpty
+                        ? Colors.transparent
+                        : widget.isDanger
+                            ? AppColors.colorRed
+                            : AppColors.colorYellow),
+                child: ScrollingTextWidget(
+                  text: widget.message,
+                  textStyle: const TextStyle(
+                      color: AppColors.colorWhite, fontWeight: FontWeight.w600),
+                )),
             Container(
               padding: const EdgeInsets.all(20),
               decoration: const BoxDecoration(

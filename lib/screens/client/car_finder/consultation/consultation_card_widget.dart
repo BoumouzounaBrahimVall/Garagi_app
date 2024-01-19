@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:garagi_app/config/colors.dart';
-import 'package:garagi_app/domain/models/consultation_model.dart';
+import 'package:garagi_app/domain/models/car_details_model.dart';
 import 'package:garagi_app/screens/client/car_finder/consultation/methods/consultation_methods.dart';
 
 class ConsultationCardWidget extends StatelessWidget {
@@ -79,7 +79,7 @@ class ConsultationCardWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    price,
+                    "$price MAD",
                     style: const TextStyle(
                         color: AppColors.colorGrayDark,
                         fontSize: 26,
@@ -102,7 +102,7 @@ class ConsultationCardWidget extends StatelessWidget {
                         color: AppColors.colorGrayDark,
                       ),
                       Text(
-                        doneAt, //"21-12-2022"
+                        doneAt.split(" ")[0], //"21-12-2022"
                         style: const TextStyle(
                             fontSize: 12, color: AppColors.colorGrayDark),
                       ),

@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:garagi_app/domain/models/car_details_model.dart';
 import '../../../config/colors.dart';
-import '../../../config/consultations_fake_data.dart';
 import '../../../domain/methods/transform_number.dart';
 import '../../../domain/models/car_model.dart';
 import '../../../domain/models/choice_model.dart';
-import '../../../domain/models/consultation_model.dart';
-import '../../../domain/services/client/cars/get_client_car_details.dart';
 import '../../../screens/client/car_finder/consultation/consultation_screen.dart';
 import '../../../screens/client/car_finder/consultation/consultation_card_widget.dart';
 import '../../../widgets/app_bar/secondary_appbar_widget.dart';
 import '../../../widgets/screen_transitions_widget.dart';
 
 class CarDetailScreen extends StatefulWidget {
-  const CarDetailScreen({super.key, required this.matricule});
-  final String matricule;
+  const CarDetailScreen(
+      {super.key,
+      required this.model,
+      required this.isDanger,
+      required this.message});
+  final CarDetailModel model;
+  final bool isDanger;
+  final String message;
   @override
   State<CarDetailScreen> createState() => _CarDetailScreenState();
 }
@@ -26,17 +30,16 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
     ChoiceModel(name: "Diagnostics", index: 2, isSelected: false),
     ChoiceModel(name: "Reperations", index: 3, isSelected: false),
   ];
-  List<ConsultationModel> filteredConsultations = [];
+  List<Consultation> consultationData = [];
+  List<Consultation> filtredConsultationData = [];
+
   CarModel? carDetails;
 
   @override
   void initState() {
     super.initState();
-    filteredConsultations = consultationFakeData;
-  }
-
-  void getCarDetails() async {
-    carDetails = await getClientCarDetails("1234AA12");
+    consultationData = widget.model.consultations;
+    filtredConsultationData = consultationData;
   }
 
   @override
@@ -66,7 +69,11 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  color: AppColors.colorRed,
+                  color: widget.message.isEmpty
+                      ? Colors.transparent
+                      : widget.isDanger
+                          ? AppColors.colorRed
+                          : AppColors.colorYellow,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                       color: AppColors.colorBlack.withOpacity(0.1),
@@ -76,11 +83,11 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                     ),
                   ],
                 ),
-                child: const Text(
-                  "Besoin d'une vidange ", //'vidange apres 100km',
+                child: Text(
+                  widget.message, //'vidange apres 100km',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 16,
                       color: AppColors.colorWhite,
                       fontWeight: FontWeight.w600),
@@ -105,13 +112,14 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                             onTap: () {
                               if (choice.index == 0) {
                                 // index 0 is for all categories
-                                filteredConsultations = consultationFakeData;
+                                filtredConsultationData = consultationData;
                               } else {
                                 // indexs 1 to 3 are for all categories and needs -1 to be equal to enum indexs
-                                filteredConsultations = consultationFakeData
+
+                                filtredConsultationData = consultationData
                                     .map((e) => e)
                                     .where((elem) =>
-                                        elem.type.index == choice.index - 1)
+                                        elem.category.index == choice.index - 1)
                                     .toList();
                               }
                               setState(() {
@@ -152,19 +160,18 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 child: ListView(
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    ...filteredConsultations
+                    ...filtredConsultationData
                         .map((e) => ConsultationCardWidget(
-                              type: e.type,
-                              doneAt: e.date,
-                              price: e.price,
-                              stationName: e.stationName,
-                              consultationId: e.consultationId,
+                              type: e.category,
+                              doneAt: e.date.toString(),
+                              price: e.price.toString(),
+                              stationName: "Garagi",
+                              consultationId: e.id,
                               showMoreAction: () {
                                 Navigator.of(context).push(SlideLeftRouteWidget(
                                     ConsultationScreen(model: e)));
                               },
-                            ))
-                        .toList(),
+                            )),
                   ],
                 ),
               )
@@ -212,17 +219,19 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Toyota Hilux 2020",
+                  Text(
+                    widget.model.model, //"Toyota Hilux 2020",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const Text(
-                    "1234AA12",
+                  Text(
+                    widget.model.matricule, // "1234AA12",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(
                     height: 15,
@@ -255,10 +264,19 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                statsContainer(value: formatNumber(10), title: "Vidanges"),
                 statsContainer(
-                    value: formatNumber(9909990), title: "KM restant"),
-                statsContainer(value: formatNumber(560000), title: "depances"),
+                    value: formatNumber(consultationData.length),
+                    title: "Services"),
+                statsContainer(
+                    value: formatNumber(widget.model.kilometrageActuel),
+                    title: "KM restant"),
+                statsContainer(
+                    value: formatNumber(widget.model.consultations
+                        .map((e) => e.price)
+                        .toList()
+                        .reduce((value, element) => value + element)
+                        .toInt()),
+                    title: "depances"),
               ],
             ),
           ),

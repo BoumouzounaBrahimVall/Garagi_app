@@ -9,5 +9,8 @@ class AppConstants {
   static const double buttonRadiusValue = 10;
   static const double inputRadiusValue = 10;
   static const double appBarHeightValue = 80.0;
-  static const String backendUrl = "http://192.168.2.100:3000";
+  static const String backendUrl = "http://192.168.2.119:3000";
+  static const mapboxAccessToken =
+      "pk.eyJ1IjoiYnJhaGltdmFsbCIsImEiOiJjbG8xajloZW4wOWcxMmttc20xc3cwOHBrIn0.kO4HDhXBeauDBQREZReJzA";
+  static const mapboxStyle = "clo1tt8hu00es01qvbetq6yjj";
 }

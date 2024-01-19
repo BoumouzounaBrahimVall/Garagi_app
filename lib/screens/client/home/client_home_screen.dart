@@ -33,20 +33,22 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PrimaryAppBarWidget(
-          onPressedMore: () {
-            modalBottomSheetWidget(context,
-                initialChildSize: 0.8,
-                maxChildSize: 0.9,
-                minChildSize: 0.5,
-                child: const SizedBox(
-                  height: 200,
-                ));
-            //modalBottomSheetWidget
-          },
-          horizontalPadding: 8),
+      appBar: _currentIndex != 1
+          ? PrimaryAppBarWidget(
+              onPressedMore: () {
+                modalBottomSheetWidget(context,
+                    initialChildSize: 0.8,
+                    maxChildSize: 0.9,
+                    minChildSize: 0.5,
+                    child: const SizedBox(
+                      height: 200,
+                    ));
+                //modalBottomSheetWidget
+              },
+              horizontalPadding: 8)
+          : null,
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 20, 10.0, 0),
+        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
         child: _screens[_currentIndex],
       ),
       floatingActionButton: Container(

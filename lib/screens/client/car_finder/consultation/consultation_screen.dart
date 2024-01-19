@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:garagi_app/config/colors.dart';
-import 'package:garagi_app/domain/models/consultation_model.dart';
+import 'package:garagi_app/domain/models/car_details_model.dart';
 import 'package:garagi_app/screens/client/car_finder/consultation/methods/consultation_methods.dart';
 import 'package:garagi_app/widgets/app_bar/secondary_appbar_widget.dart';
 
 class ConsultationScreen extends StatefulWidget {
   const ConsultationScreen({super.key, required this.model});
-  final ConsultationModel model;
+  final Consultation model;
   @override
   State<ConsultationScreen> createState() => _ConsultationScreenState();
 }
 
 class _ConsultationScreenState extends State<ConsultationScreen> {
+  late final Consultation consultationData;
+  @override
+  void initState() {
+    super.initState();
+    consultationData = widget.model;
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -55,27 +62,23 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                   ],
                 ),
                 child: Column(children: [
-                  ...widget.model.services
-                      .map((e) => serviceWidget(
-                          title: e.title,
-                          subtitle: e.details,
-                          // this test is to remove the devider under the last element
-                          withDivider: widget.model.services.indexOf(e) ==
-                                  widget.model.services.length - 1
-                              ? false
-                              : true))
-                      .toList(),
+                  ...consultationData.services.map((e) => serviceWidget(
+                      title: e.title ?? "",
+                      subtitle: e.description,
+                      // this test is to remove the devider under the last element
+                      withDivider: consultationData.services.indexOf(e) ==
+                              consultationData.services.length - 1
+                          ? false
+                          : true)),
                 ]),
               ),
 
-              if (widget.model.problems != null &&
-                  widget.model.problems!.isNotEmpty)
+              if (consultationData.problems.isNotEmpty)
                 const Text(
                   "Problème Découvert ",
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                 ),
-              if (widget.model.problems != null &&
-                  widget.model.problems!.isNotEmpty)
+              if (consultationData.problems.isNotEmpty)
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 16),
                   padding: const EdgeInsets.symmetric(vertical: 8),
@@ -92,14 +95,14 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                     ],
                   ),
                   child: Column(children: [
-                    ...widget.model.problems!
+                    ...consultationData.problems
                         .map((e) => serviceWidget(
-                            title: e.title,
-                            subtitle: e.details,
+                            title: e.title ?? "",
+                            subtitle: e.description,
                             isProblem: true,
                             // this test is to remove the devider under the last element
-                            withDivider: widget.model.problems!.indexOf(e) ==
-                                    widget.model.problems!.length - 1
+                            withDivider: consultationData.problems.indexOf(e) ==
+                                    consultationData.problems.length - 1
                                 ? false
                                 : true))
                         .toList(),
@@ -134,13 +137,16 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
           dense: true,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-          horizontalTitleGap: -3,
+          horizontalTitleGap: 10,
           visualDensity: VisualDensity.compact,
           leading: isProblem ? xIcon : const Icon(Icons.check_circle_rounded),
-          title: Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
+          title: title.isNotEmpty
+              ? Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600),
+                )
+              : null,
           subtitle: (subtitle != null)
               ? Text(
                   subtitle,
@@ -189,14 +195,14 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        consultationTitle(widget.model.type),
+                        consultationTitle(consultationData.category),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        widget.model.price,
+                        "${consultationData.price} MAD",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -216,7 +222,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                             width: 8,
                           ),
                           Text(
-                            widget.model.mecanicianName,
+                            consultationData.repairerFullName ?? " ",
                             style: const TextStyle(fontSize: 18),
                           )
                         ],
@@ -235,7 +241,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Text(
-                        widget.model.date,
+                        consultationData.date.toString().split(" ")[0],
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -247,7 +253,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                       bottom: -36,
                       right: -30,
                       child: SvgPicture.asset(
-                        consultationSvgPath(widget.model.type),
+                        consultationSvgPath(consultationData.category),
                         height: 150,
                         color: AppColors.colorGray,
                       )),

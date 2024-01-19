@@ -49,6 +49,8 @@ dependencies:
   flutter_password_strength: ^0.1.6
   dio: ^5.4.0
   dartz: ^0.10.1
+  flutter_map: ^4.0.0
+  latlong2: ^0.8.2
 
 
 dev_dependencies:
