@@ -27,6 +27,13 @@ class CarServiceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> saveCar(FormCarModel car) async {
+    final result = await _carsService.createVehicle(car);
+    result.fold(
+        (l) => messageStatus = l.message, (r) => messageStatus = r.message);
+    notifyListeners();
+  }
+
   Future<void> filterCars(String substring) async {
     final result = await _carsService.getVehiclesBySubString(substring);
     result.fold((l) => messageStatus = l.message, (r) => _cars = r);
