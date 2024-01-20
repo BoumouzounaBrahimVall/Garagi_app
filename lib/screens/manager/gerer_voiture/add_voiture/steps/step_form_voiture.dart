@@ -33,6 +33,7 @@ class _StepFormVoitureState extends State<StepFormVoiture> {
         TextFormWithLabelWidget(
           label: 'Marque',
           placeholder: 'Tapez Marque',
+          icon: Icons.car_repair,
           controller: TextEditingController(
               text: context.watch<CarFormProvider>().getFormCarModel.marque),
           onChanged: (value) {
@@ -44,6 +45,7 @@ class _StepFormVoitureState extends State<StepFormVoiture> {
         TextFormWithLabelWidget(
           label: 'Modele',
           placeholder: 'Tapez Modele',
+          icon: Icons.car_repair,
           controller: TextEditingController(
               text: context.watch<CarFormProvider>().getFormCarModel.modele),
           onChanged: (value) {
@@ -55,6 +57,7 @@ class _StepFormVoitureState extends State<StepFormVoiture> {
         TextFormWithLabelWidget(
           label: 'Immatriculation',
           placeholder: 'Tapez Immatriculation',
+          icon: Icons.numbers,
           controller: TextEditingController(
               text: context.watch<CarFormProvider>().getFormCarModel.matricule),
           onChanged: (value) {
@@ -66,6 +69,7 @@ class _StepFormVoitureState extends State<StepFormVoiture> {
         TextFormWithLabelWidget(
           label: 'Kilometrage',
           keyboardType: TextInputType.number,
+          icon: Icons.numbers,
           placeholder: 'Tapez Kilometrage',
           controller: TextEditingController(
               text: context
