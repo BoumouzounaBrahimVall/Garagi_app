@@ -144,6 +144,12 @@ class Service {
       consultationId: json['consultationId'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      "title": title,
+      "description": description,
+    };
+  }
 }
 
 class Problem {
@@ -172,5 +178,11 @@ class Problem {
       description: json['description'],
       consultationId: json['consultationId'],
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      "title": title,
+      "description": description,
+    };
   }
 }

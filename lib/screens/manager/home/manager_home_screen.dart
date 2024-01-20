@@ -17,7 +17,7 @@ class ManagerHomeScreen extends StatefulWidget {
 
 class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
   final List<Widget> _screens = [
-    const DashboardScreen(),
+    const GererClientScreen(),
     const GererClientScreen(),
     const GererServiceScreen(),
     const GererVoitureScreen(),

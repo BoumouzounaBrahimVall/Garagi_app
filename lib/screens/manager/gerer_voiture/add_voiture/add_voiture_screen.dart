@@ -37,10 +37,10 @@ class _AddVoitureScreenState extends State<AddVoitureScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
-                  Container(
+                  SizedBox(
                     height: height,
                     child: PageView(
                       controller: _pageController,
@@ -49,13 +49,13 @@ class _AddVoitureScreenState extends State<AddVoitureScreen> {
                           _currentPage = value;
                         });
                       },
-                      children: [
+                      children: const [
                         StepFormVoiture(),
                         StepFormClient(),
                       ],
                     ),
                   ),
-                  SizedBox(height: 100),
+                  const SizedBox(height: 100),
                 ],
               ),
             ),

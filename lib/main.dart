@@ -14,6 +14,8 @@ import 'config/theme.dart';
 import 'provider/car_form_provider.dart';
 import 'provider/car_service_provider.dart';
 import 'provider/client_service_provider.dart';
+import 'provider/consultation_form_provider.dart';
+import 'provider/consultation_service_provider.dart';
 
 //    _____                           _____    _
 //   / ____|                         / ____|  |_|
@@ -40,6 +42,12 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => ClientServiceProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ConsultationServiceProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ConsultationFormProvider(),
         ),
       ],
       child: const MyApp(),
