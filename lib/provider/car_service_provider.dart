@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagi_app/domain/models/client_model.dart';
 import 'package:garagi_app/domain/models/form_car_model.dart';
 import 'package:garagi_app/domain/services/cars/cars_service.dart';
 import 'package:garagi_app/domain/services/cars/http_cars_service.dart';
@@ -12,7 +13,10 @@ class CarServiceProvider extends ChangeNotifier {
   String messageStatus = '';
 
   List<CarModel> _cars = [];
+  List<ClientModel> _clients = [];
   List<CarModel> get cars => _cars;
+
+  List<ClientModel> get clients => _clients;
 
   Future<void> fetchVehicles() async {
     final prefs = await SharedPreferences.getInstance();
@@ -27,6 +31,20 @@ class CarServiceProvider extends ChangeNotifier {
     final result = await _carsService.getVehiclesBySubString(substring);
     result.fold((l) => messageStatus = l.message, (r) => _cars = r);
     notifyListeners();
+  }
+
+  Future<void> getFakeClients() async {
+    isLoading = true;
+    Future.delayed(Duration(seconds: 10)).then((value) {
+      _clients = [
+        ClientModel(fullName: 'Ahmed Kamal', id: 1),
+        ClientModel(fullName: 'Mohamed Ali', id: 2),
+        ClientModel(fullName: 'Hassan Ahmed', id: 3),
+      ];
+      isLoading = false;
+      debugPrint('loading ' + isLoading.toString());
+      notifyListeners();
+    });
   }
 
   Future<void> getFakeCars() async {
