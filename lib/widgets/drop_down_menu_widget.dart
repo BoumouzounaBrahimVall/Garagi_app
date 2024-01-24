@@ -30,7 +30,7 @@ class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.colorGrayDark, width: 1.5),
-        color: Colors.transparent, // Set the desired background color
+        color: Colors.white, // Set the desired background color
         borderRadius: BorderRadius.circular(8), // Optional: Add rounded corners
       ),
       child: DropdownButtonFormField<String>(

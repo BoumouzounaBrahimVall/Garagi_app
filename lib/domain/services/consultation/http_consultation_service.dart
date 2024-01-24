@@ -6,6 +6,7 @@ import 'package:garagi_app/domain/models/failure_success.dart';
 import 'package:garagi_app/domain/services/consultation/consultation_service.dart';
 
 import '../../../config/constants.dart';
+import '../../models/car_details_model.dart';
 
 class HttpConsultationService implements ConsultationService {
   String baseUrl = '${AppConstants.backendUrl}/consultations';
@@ -18,8 +19,8 @@ class HttpConsultationService implements ConsultationService {
     String url = '$baseUrl/create';
     try {
       final response = await _dio.post(url, data: form.toJson());
-      final consultation = ConsultationModel.fromJson(response.data);
-      debugPrint(consultation.toString());
+      //final consultation = ConsultationModel.fromJson(response.data);
+      //debugPrint(consultation.toString());
       String message = '';
       if (response.statusCode == 200) {
         message = 'Consultation created successfully';
@@ -37,13 +38,13 @@ class HttpConsultationService implements ConsultationService {
   }
 
   @override
-  Future<Either<Failure, List<ConsultationModel>>> getConsultations() async {
-    String url = '$baseUrl/all';
+  Future<Either<Failure, List<ConsultationSmall>>> getConsultations() async {
+    String url = '$baseUrl/get-all';
     try {
-      final response = await _dio.get(baseUrl);
-      List<ConsultationModel> consultations = [];
-      response.data['data'].forEach((consultation) {
-        consultations.add(ConsultationModel.fromJson(consultation));
+      final response = await _dio.get(url);
+      List<ConsultationSmall> consultations = [];
+      response.data.forEach((consultation) {
+        consultations.add(ConsultationSmall.fromJson(consultation));
       });
       return Right(consultations);
     } on DioException catch (e) {
