@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagi_app/screens/manager/dashboard/dashboard_screen.dart';
+import '../gerer_service/gerer_consultation_screen.dart';
 import '/screens/manager/gerer_client/gerer_client_screen.dart';
-import '/screens/manager/gerer_service/gerer_service_screen.dart';
 import '/screens/manager/gerer_voiture/gerer_voiture_screen.dart';
 import '/widgets/app_bar/secondary_appbar_widget.dart';
 import '/config/colors.dart';
@@ -19,7 +19,7 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
   final List<Widget> _screens = [
     const GererClientScreen(),
     const GererClientScreen(),
-    const GererServiceScreen(),
+    const GererConsultationScreen(),
     const GererVoitureScreen(),
   ];
   Color iconColor = AppColors.colorGray;
@@ -138,7 +138,8 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
                     ),
                     myListTile(0, "Dashboard", Icons.dashboard_rounded),
                     myListTile(1, "Gerer Clients", Icons.person),
-                    myListTile(2, "Gerer Services", Icons.home_repair_service),
+                    myListTile(
+                        2, "Gerer Consultation", Icons.home_repair_service),
                     myListTile(3, "Gerer Voitures", Icons.car_repair_rounded),
                     myListTile(3, "À propos de Garaggi", Icons.info_outline),
                   ],

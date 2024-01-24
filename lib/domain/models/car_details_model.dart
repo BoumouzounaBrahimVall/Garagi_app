@@ -1,3 +1,5 @@
+import '../methods/date_transform.dart';
+
 class CarDetailModel {
   int id;
   int? ownerId;
@@ -87,6 +89,18 @@ class Consultation {
     return result;
   }
 
+  static String getCategoryString(ConsultationType category) {
+    switch (category) {
+      case ConsultationType.diagnostic:
+        return "DIAGNOSTIC";
+      case ConsultationType.vidange:
+        return "VIDANGE";
+      //REPARATION
+      default:
+        return "REPARATION";
+    }
+  }
+
   static ConsultationType getCategory(String category) {
     switch (category) {
       case "DIAGNOSTIC":
@@ -114,6 +128,71 @@ class Consultation {
       problems:
           List<Problem>.from(json['problems'].map((x) => Problem.fromJson(x))),
     );
+  }
+}
+
+class ConsultationSmall {
+  int? id;
+  String? date;
+
+  int? carId;
+  int? killometrageConsulte;
+  String? repairerFullName;
+  int? stationId;
+  String? category;
+  double? price;
+  String? fullName;
+  String? matricule;
+  int? problems;
+  int? services;
+
+  ConsultationSmall({
+    this.id,
+    this.date,
+    this.carId,
+    this.killometrageConsulte,
+    this.repairerFullName,
+    this.stationId,
+    this.category,
+    this.price,
+    this.fullName,
+    this.matricule,
+    this.problems,
+    this.services,
+  });
+
+  factory ConsultationSmall.fromJson(Map<String, dynamic> json) {
+    return ConsultationSmall(
+      id: json['id'],
+      date: formatDateToString(json['date']),
+      carId: json['carId'],
+      killometrageConsulte: json['killometrageConsulte'],
+      repairerFullName: json['repairerFullName'],
+      stationId: json['stationId'],
+      category: json['category'],
+      price: double.parse(json['price'].toString()),
+      fullName: json['fullName'],
+      matricule: json['matricule'],
+      problems: int.parse(json['problems'].toString()),
+      services: int.parse(json['services'].toString()),
+    );
+  }
+  String getCategoryFromEnum(ConsultationType category) {
+    switch (category) {
+      case ConsultationType.diagnostic:
+        return "DIAGNOSTIC";
+      case ConsultationType.vidange:
+        return "VIDANGE";
+      //REPARATION
+      default:
+        return "REPARATION";
+    }
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "id: $id, date: $date, carId: $carId, killometrageConsulte: $killometrageConsulte, repairerFullName: $repairerFullName, stationId: $stationId, category: $category, price: $price, fullName: $fullName, matricule: $matricule, problems: $problems, services: $services";
   }
 }
 

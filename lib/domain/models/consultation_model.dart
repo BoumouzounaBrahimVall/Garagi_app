@@ -41,91 +41,61 @@ import 'dart:developer';
 import 'package:garagi_app/domain/models/car_details_model.dart';
 
 class ConsultationModel {
-  ConsultationModel(
-      {this.id = '',
-      this.vehicleId = '',
-      this.killometrageConsulte = '',
-      this.repairerFullName = '',
-      this.stationId = 1,
-      this.category = '',
-      this.price = '',
-      this.services,
-      this.problems});
-  String? id;
-  String? vehicleId;
-  String? killometrageConsulte;
+  int? id;
+  DateTime? date;
+  int? carId;
+  int? killometrageConsulte;
   String? repairerFullName;
   int? stationId;
-  String? category;
-  String? price;
+  ConsultationType? category;
+  double? price = 0;
   List<Service>? services;
   List<Problem>? problems;
 
-  bool isValidated() {
-    return killometrageConsulte != '' &&
-        repairerFullName != '' &&
-        stationId != '' &&
-        category != '' &&
-        price != '' &&
-        services!.isNotEmpty &&
-        problems!.isNotEmpty;
-  }
-
-  factory ConsultationModel.fromJson(Map<String, dynamic> json) {
-    List<Service> services = [];
-    List<Problem> problems = [];
-    json['services'].forEach((element) {
-      services.add(Service.fromJson(element));
-    });
-    json['problems'].forEach((element) {
-      problems.add(Problem.fromJson(element));
-    });
-    return ConsultationModel(
-      id: json['id'],
-      vehicleId: json['vehicleId'],
-      killometrageConsulte: json['killometrageConsulte'],
-      repairerFullName: json['repairerFullName'],
-      stationId: json['stationId'],
-      category: json['category'],
-      price: json['price'],
-      services: services,
-      problems: problems,
-    );
-  }
-  void addProblem(Problem problem) {
-    problems!.add(problem);
-  }
-
-  void addService(Service service) {
-    services!.add(service);
-  }
-
-  void clear() {
-    id = '';
-    vehicleId = '';
-    killometrageConsulte = '';
-    repairerFullName = '';
-    stationId = 1;
-    category = '';
-    price = '';
+  ConsultationModel({
+    this.id,
+    this.date,
+    this.carId,
+    this.killometrageConsulte,
+    this.repairerFullName,
+    this.stationId,
+    this.category,
+    this.price = 0,
+    this.services,
+    this.problems,
+  }) {
     services = [];
     problems = [];
   }
-
   @override
-  String toString() =>
-      'ConsultationModel(id: $id, vehicleId: $vehicleId, killometrageConsulte: $killometrageConsulte, repairerFullName: $repairerFullName, stationId: $stationId, category: $category, price: $price, services: $services, problems: $problems)';
+  String toString() {
+    return toJson().toString();
+  }
+
+  static ConsultationType getCategory(String category) {
+    switch (category) {
+      case "DIAGNOSTIC":
+        return ConsultationType.diagnostic;
+      case "VIDANGE":
+        return ConsultationType.vidange;
+      //REPARATION
+      default:
+        return ConsultationType.reparation;
+    }
+  }
+
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'vehicleId': vehicleId,
-      'killometrageConsulte': killometrageConsulte,
-      'repairerFullName': repairerFullName,
-      'stationId': stationId,
-      'category': category,
-      'price': price,
-      'services': services,
-      'problems': problems,
+      //  "id": id,
+      //"date": DateTime.now().toIso8601String(),
+      "carId": carId,
+      "killometrageConsulte": 100,
+      "repairerFullName": repairerFullName,
+      "stationId": 1,
+      "category": Consultation.getCategoryString(category!),
+      "price": price,
+      "services": services?.map((e) => e.toJson()).toList(),
+      "problems": problems?.map((e) => e.toJson()).toList(),
     };
   }
 }

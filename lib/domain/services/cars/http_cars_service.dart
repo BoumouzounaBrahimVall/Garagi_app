@@ -166,7 +166,7 @@ class HttpCarsService implements CarsService {
       return Right(cars);
     } on DioException catch (e) {
       debugPrint(e.toString());
-      return Left(Failure(e.response?.data['message']));
+      return Left(Failure("request failed"));
     }
   }
 }

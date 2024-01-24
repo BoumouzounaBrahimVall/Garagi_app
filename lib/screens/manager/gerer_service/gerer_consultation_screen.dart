@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:garagi_app/screens/layout/secondary_layout_screen.dart';
+import 'package:garagi_app/screens/manager/gerer_service/add_consultation/add_consultation_screen.dart';
+import 'package:garagi_app/widgets/consultation_item_info_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/consultation_service_provider.dart';
 import '../../../widgets/button_primary_widget.dart';
 import '../../../widgets/form/text_form_search_widget.dart';
 
-class GererServiceScreen extends StatefulWidget {
-  const GererServiceScreen({
+class GererConsultationScreen extends StatefulWidget {
+  const GererConsultationScreen({
     super.key,
   });
   @override
-  State<GererServiceScreen> createState() => _GererServiceScreenState();
+  State<GererConsultationScreen> createState() =>
+      _GererConsultationScreenState();
 }
 
-class _GererServiceScreenState extends State<GererServiceScreen> {
+class _GererConsultationScreenState extends State<GererConsultationScreen> {
   bool showCreateButton = true;
   FocusNode focusNode = FocusNode();
   void initState() {
@@ -32,7 +35,7 @@ class _GererServiceScreenState extends State<GererServiceScreen> {
         SingleChildScrollView(
           padding: const EdgeInsets.all(8),
           child: Consumer<ConsultationServiceProvider>(
-              builder: (context, clientService, child) {
+              builder: (context, consultationService, child) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -70,15 +73,17 @@ class _GererServiceScreenState extends State<GererServiceScreen> {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 16),
-                /* SizedBox(
+                SizedBox(
                   height: height * 0.6,
                   child: ListView.separated(
-                      itemBuilder: (context, index) => UserItemInfoWidget(
-                          user: clientService.clients[index]),
+                      itemBuilder: (context, index) =>
+                          ConsultationItemInfoWidget(
+                              consultation:
+                                  consultationService.consultations[index]),
                       separatorBuilder: (context, index) =>
                           SizedBox(height: 16),
-                      itemCount: clientService.clients.length),
-                ),*/
+                      itemCount: consultationService.consultations.length),
+                ),
                 const SizedBox(height: 60),
               ],
             );
@@ -93,11 +98,11 @@ class _GererServiceScreenState extends State<GererServiceScreen> {
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: 20),
               child: ButtonPrimaryWidget(
-                  title: 'Ajouter Client',
+                  title: 'Ajouter Consultation',
                   onPressed: () => {
-                        /*  Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const AddClientScreen()))
-                      */
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                const AddConsultationScreen()))
                       }),
             ),
           ),
