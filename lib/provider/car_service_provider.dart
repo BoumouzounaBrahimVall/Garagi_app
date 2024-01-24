@@ -3,12 +3,15 @@ import 'package:garagi_app/domain/models/client_model.dart';
 import 'package:garagi_app/domain/models/form_car_model.dart';
 import 'package:garagi_app/domain/services/cars/cars_service.dart';
 import 'package:garagi_app/domain/services/cars/http_cars_service.dart';
+import 'package:garagi_app/domain/services/client/client_service.dart';
+import 'package:garagi_app/domain/services/client/http_client_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/models/car_model.dart';
 
 class CarServiceProvider extends ChangeNotifier {
   final CarsService _carsService = HttpCarsService();
+  final ClientService _clientsService = HttpClientService();
   bool isLoading = false;
   String messageStatus = '';
 
@@ -40,13 +43,20 @@ class CarServiceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> fetchClients() async {
+    final result = await _clientsService.getClientList();
+    result.fold((l) => messageStatus = l.message, (r) => _clients = r);
+    isLoading = false;
+    debugPrint('loading ' + isLoading.toString());
+    notifyListeners();
+  }
+
   Future<void> getFakeClients() async {
     isLoading = true;
-    Future.delayed(Duration(seconds: 10)).then((value) {
+    Future.delayed(Duration(seconds: 5)).then((value) {
       _clients = [
-        ClientModel(fullName: 'Ahmed Kamal', id: 1),
-        ClientModel(fullName: 'Mohamed Ali', id: 2),
-        ClientModel(fullName: 'Hassan Ahmed', id: 3),
+        ClientModel(fullName: 'Brhim Vall Bmz', id: 2),
+        ClientModel(fullName: 'Hamza EL Idrissi', id: 6),
       ];
       isLoading = false;
       debugPrint('loading ' + isLoading.toString());

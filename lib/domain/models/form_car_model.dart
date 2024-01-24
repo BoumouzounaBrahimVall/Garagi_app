@@ -10,7 +10,7 @@ class FormCarModel {
       {this.marque,
       this.ownerId,
       this.modele,
-      this.annee,
+      this.annee = "zebi",
       this.kilometrage = 0,
       this.matricule});
 
@@ -40,12 +40,12 @@ class FormCarModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['marque'] = this.marque; // todo: not taken
-    data['model'] = this.modele;
-    data['annee'] = this.annee; // todo: not taken
-    data['matricule'] = this.matricule;
-    data['km'] = this.kilometrage;
-    data['client_id'] = this.ownerId;
+    data['marque'] = marque; // todo: not taken
+    data['model'] = modele;
+    data['annee'] = annee; // todo: not taken
+    data['matricule'] = matricule;
+    data['km'] = kilometrage;
+    data['client_id'] = int.parse(ownerId!);
     return data;
   }
 }

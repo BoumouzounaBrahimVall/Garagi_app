@@ -74,7 +74,7 @@ class _AddVoitureScreenState extends State<AddVoitureScreen> {
                             context
                                 .read<CarServiceProvider>()
                                 .saveCar(context
-                                    .watch<CarFormProvider>()
+                                    .read<CarFormProvider>()
                                     .getFormCarModel)
                                 .then((value) => Navigator.of(context).pop()),
                           }

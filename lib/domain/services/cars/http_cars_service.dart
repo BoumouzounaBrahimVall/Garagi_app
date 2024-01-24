@@ -25,10 +25,11 @@ class HttpCarsService implements CarsService {
           'authorization': 'Bearer $token',
         }),
       );
-      return Right(Success(response.data['message']));
+
+      return Right(Success("request successfully proccessed"));
     } on DioException catch (e) {
       debugPrint(e.toString());
-      return Left(Failure(e.response?.data['message']));
+      return Left(Failure("request failed"));
     }
   }
 

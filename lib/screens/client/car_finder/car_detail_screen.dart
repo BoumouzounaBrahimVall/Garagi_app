@@ -38,8 +38,12 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
   @override
   void initState() {
     super.initState();
-    consultationData = widget.model.consultations;
-    filtredConsultationData = consultationData;
+    if (consultationData.isNotEmpty) {
+      consultationData = widget.model.consultations;
+      filtredConsultationData = consultationData;
+    } else {
+      filtredConsultationData = [];
+    }
   }
 
   @override
@@ -156,25 +160,27 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   ),
                 ),
               ),
-              Expanded(
-                child: ListView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    ...filtredConsultationData
-                        .map((e) => ConsultationCardWidget(
-                              type: e.category,
-                              doneAt: e.date.toString(),
-                              price: e.price.toString(),
-                              stationName: "Garagi",
-                              consultationId: e.id,
-                              showMoreAction: () {
-                                Navigator.of(context).push(SlideLeftRouteWidget(
-                                    ConsultationScreen(model: e)));
-                              },
-                            )),
-                  ],
-                ),
-              )
+              if (consultationData.isEmpty)
+                Expanded(
+                  child: ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      ...filtredConsultationData
+                          .map((e) => ConsultationCardWidget(
+                                type: e.category,
+                                doneAt: e.date.toString(),
+                                price: e.price.toString(),
+                                stationName: "Garagi",
+                                consultationId: e.id,
+                                showMoreAction: () {
+                                  Navigator.of(context).push(
+                                      SlideLeftRouteWidget(
+                                          ConsultationScreen(model: e)));
+                                },
+                              )),
+                    ],
+                  ),
+                )
             ],
           ),
         ),
