@@ -38,7 +38,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
   @override
   void initState() {
     super.initState();
-    if (consultationData.isNotEmpty) {
+    if (widget.model.consultations.isNotEmpty) {
       consultationData = widget.model.consultations;
       filtredConsultationData = consultationData;
     } else {
@@ -103,64 +103,65 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 "Historique",
                 style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Wrap(
-                    spacing: 10.0, //
-                    children: <Widget>[
-                      ...categories.map(
-                        (choice) {
-                          return GestureDetector(
-                            onTap: () {
-                              if (choice.index == 0) {
-                                // index 0 is for all categories
-                                filtredConsultationData = consultationData;
-                              } else {
-                                // indexs 1 to 3 are for all categories and needs -1 to be equal to enum indexs
+              if (widget.model.consultations.isNotEmpty) ...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Wrap(
+                      spacing: 10.0, //
+                      children: <Widget>[
+                        ...categories.map(
+                          (choice) {
+                            return GestureDetector(
+                              onTap: () {
+                                if (choice.index == 0) {
+                                  // index 0 is for all categories
+                                  filtredConsultationData = consultationData;
+                                } else {
+                                  // indexs 1 to 3 are for all categories and needs -1 to be equal to enum indexs
 
-                                filtredConsultationData = consultationData
-                                    .map((e) => e)
-                                    .where((elem) =>
-                                        elem.category.index == choice.index - 1)
-                                    .toList();
-                              }
-                              setState(() {
-                                for (var element in categories) {
-                                  element.isSelected = false;
+                                  filtredConsultationData = consultationData
+                                      .map((e) => e)
+                                      .where((elem) =>
+                                          elem.category.index ==
+                                          choice.index - 1)
+                                      .toList();
                                 }
-                                choice.isSelected = true;
-                              });
-                            },
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  color: choice.isSelected
-                                      ? AppColors.colorYellow
-                                      : Colors.white,
-                                  borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(
-                                      color: AppColors.colorYellow, width: 2),
-                                ),
-                                padding:
-                                    const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                                child: Text(
-                                  choice.name,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: choice.isSelected
-                                          ? Colors.white
-                                          : Colors.black),
-                                )),
-                          );
-                        },
-                      ).toList()
-                    ],
+                                setState(() {
+                                  for (var element in categories) {
+                                    element.isSelected = false;
+                                  }
+                                  choice.isSelected = true;
+                                });
+                              },
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    color: choice.isSelected
+                                        ? AppColors.colorYellow
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(100),
+                                    border: Border.all(
+                                        color: AppColors.colorYellow, width: 2),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                                  child: Text(
+                                    choice.name,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: choice.isSelected
+                                            ? Colors.white
+                                            : Colors.black),
+                                  )),
+                            );
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              if (consultationData.isEmpty)
                 Expanded(
                   child: ListView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -180,6 +181,16 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                               )),
                     ],
                   ),
+                )
+              ] else
+                Text(
+                  "No Consultation Done Yet!",
+                  style: Theme.of(context).textTheme.bodyMedium!.merge(
+                        const TextStyle(
+                            color: AppColors.colorGray,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20),
+                      ),
                 )
             ],
           ),
@@ -277,11 +288,13 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                     value: formatNumber(widget.model.kilometrageActuel),
                     title: "KM restant"),
                 statsContainer(
-                    value: formatNumber(widget.model.consultations
-                        .map((e) => e.price)
-                        .toList()
-                        .reduce((value, element) => value + element)
-                        .toInt()),
+                    value: formatNumber(widget.model.consultations.isEmpty
+                        ? 0
+                        : widget.model.consultations
+                            .map((e) => e.price)
+                            .toList()
+                            .reduce((value, element) => value + element)
+                            .toInt()),
                     title: "depances"),
               ],
             ),
