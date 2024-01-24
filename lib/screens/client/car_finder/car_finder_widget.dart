@@ -97,6 +97,7 @@ class _CarFinderWidgetState extends State<CarFinderWidget> {
                                 isDanger: cars[index].isDanger,
                                 message: cars[index].message,
                                 onTap: () {
+                                  print(cars[index]);
                                   Navigator.of(context).push(
                                       SlideLeftRouteWidget(CarDetailScreen(
                                     model: cars[index],

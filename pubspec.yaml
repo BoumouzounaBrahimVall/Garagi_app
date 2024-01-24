@@ -51,6 +51,7 @@ dependencies:
   dartz: ^0.10.1
   flutter_map: ^4.0.0
   latlong2: ^0.8.2
+  flutter_cupertino_datetime_picker: ^3.0.0
 
 
 dev_dependencies:
