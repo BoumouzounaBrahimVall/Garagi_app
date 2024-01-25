@@ -18,7 +18,8 @@ class HttpCarsService implements CarsService {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
       debugPrint(car.toString());
-      final response = await _dio.post(
+      //  final response =
+      await _dio.post(
         baseUrl,
         data: car.toJson(),
         options: Options(headers: {

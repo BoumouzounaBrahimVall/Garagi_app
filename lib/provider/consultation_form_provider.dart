@@ -24,27 +24,31 @@ class ConsultationFormProvider extends ChangeNotifier {
 
   addProblem(int id) {
     debugPrint("add problem $id");
-    Problem? problem = problems.where((element) => element.id == id).first;
-    debugPrint(" problem $problem");
-    _form.problems!.add(problem);
-    notifyListeners();
+    if (_form.problems!.where((element) => element.id == id).isEmpty) {
+      Problem? problem = problems.where((element) => element.id == id).first;
+      debugPrint(" problem $problem");
+      _form.problems!.add(problem);
+      notifyListeners();
+    }
   }
 
   removeProblem(int id) {
     debugPrint("remove problem $id");
-    Problem? problem = problems!.where((element) => element.id == id).first;
+    Problem? problem = problems.where((element) => element.id == id).first;
     _form.problems!.remove(problem);
     notifyListeners();
   }
 
   addService(int id) {
-    Service? service = services!.where((element) => element.id == id).first;
-    _form.services!.add(service);
-    notifyListeners();
+    if (_form.services!.where((element) => element.id == id).isEmpty) {
+      Service? service = services.where((element) => element.id == id).first;
+      _form.services!.add(service);
+      notifyListeners();
+    }
   }
 
   removeService(int id) {
-    Service? service = services!.where((element) => element.id == id).first;
+    Service? service = services.where((element) => element.id == id).first;
 
     _form.services!.remove(service);
     notifyListeners();

@@ -36,7 +36,6 @@
 
 }
 */
-import 'dart:developer';
 
 import 'package:garagi_app/domain/models/car_details_model.dart';
 
@@ -85,6 +84,9 @@ class ConsultationModel {
   }
 
   Map<String, dynamic> toJson() {
+    Set<Service> servicess = Set.from(services!);
+    Set<Problem> problms = Set.from(problems!);
+    print("---------------------$carId----------------");
     return {
       //  "id": id,
       //"date": DateTime.now().toIso8601String(),
@@ -94,8 +96,8 @@ class ConsultationModel {
       "stationId": 1,
       "category": Consultation.getCategoryString(category!),
       "price": price,
-      "services": services?.map((e) => e.toJson()).toList(),
-      "problems": problems?.map((e) => e.toJson()).toList(),
+      "services": servicess.map((e) => e.toJson()).toList(),
+      "problems": problms.map((e) => e.toJson()).toList(),
     };
   }
 }

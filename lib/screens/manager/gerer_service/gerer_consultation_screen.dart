@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:garagi_app/screens/layout/secondary_layout_screen.dart';
 import 'package:garagi_app/screens/manager/gerer_service/add_consultation/add_consultation_screen.dart';
 import 'package:garagi_app/widgets/consultation_item_info_widget.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +19,8 @@ class GererConsultationScreen extends StatefulWidget {
 class _GererConsultationScreenState extends State<GererConsultationScreen> {
   bool showCreateButton = true;
   FocusNode focusNode = FocusNode();
+  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<ConsultationServiceProvider>().getConsultations();
   }
@@ -29,7 +28,7 @@ class _GererConsultationScreenState extends State<GererConsultationScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    //  double width = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         SingleChildScrollView(
@@ -76,6 +75,7 @@ class _GererConsultationScreenState extends State<GererConsultationScreen> {
                 SizedBox(
                   height: height * 0.6,
                   child: ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) =>
                           ConsultationItemInfoWidget(
                               consultation:
@@ -84,7 +84,7 @@ class _GererConsultationScreenState extends State<GererConsultationScreen> {
                           SizedBox(height: 16),
                       itemCount: consultationService.consultations.length),
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 50),
               ],
             );
           }),

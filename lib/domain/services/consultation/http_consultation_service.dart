@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:garagi_app/domain/models/consultation_model.dart';
 import 'package:garagi_app/domain/models/failure_success.dart';
 import 'package:garagi_app/domain/services/consultation/consultation_service.dart';

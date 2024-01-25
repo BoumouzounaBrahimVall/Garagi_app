@@ -49,7 +49,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    //double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: AppColors.colorWhite,
       appBar: SecondaryAppBarWidget(
@@ -61,139 +61,129 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 14),
-        child: SizedBox(
-          height: height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // notification banner
-              Container(
-                padding: const EdgeInsets.all(12),
-                margin: const EdgeInsets.only(bottom: 12),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  color: widget.message.isEmpty
-                      ? Colors.transparent
-                      : widget.isDanger
-                          ? AppColors.colorRed
-                          : AppColors.colorYellow,
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: AppColors.colorBlack.withOpacity(0.1),
-                      blurRadius: 4.0,
-                      spreadRadius: 1.0,
-                      offset: const Offset(0.0, 0.0),
-                    ),
-                  ],
-                ),
-                child: Text(
-                  widget.message, //'vidange apres 100km',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 16,
-                      color: AppColors.colorWhite,
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
-              // car details card
-              carDetailWidget(width),
-              const Text(
-                "Historique",
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-              ),
-              if (widget.model.consultations.isNotEmpty) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Wrap(
-                      spacing: 10.0, //
-                      children: <Widget>[
-                        ...categories.map(
-                          (choice) {
-                            return GestureDetector(
-                              onTap: () {
-                                if (choice.index == 0) {
-                                  // index 0 is for all categories
-                                  filtredConsultationData = consultationData;
-                                } else {
-                                  // indexs 1 to 3 are for all categories and needs -1 to be equal to enum indexs
-
-                                  filtredConsultationData = consultationData
-                                      .map((e) => e)
-                                      .where((elem) =>
-                                          elem.category.index ==
-                                          choice.index - 1)
-                                      .toList();
-                                }
-                                setState(() {
-                                  for (var element in categories) {
-                                    element.isSelected = false;
-                                  }
-                                  choice.isSelected = true;
-                                });
-                              },
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    color: choice.isSelected
-                                        ? AppColors.colorYellow
-                                        : Colors.white,
-                                    borderRadius: BorderRadius.circular(100),
-                                    border: Border.all(
-                                        color: AppColors.colorYellow, width: 2),
-                                  ),
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                                  child: Text(
-                                    choice.name,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        color: choice.isSelected
-                                            ? Colors.white
-                                            : Colors.black),
-                                  )),
-                            );
-                          },
-                        )
-                      ],
-                    ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // notification banner
+            Container(
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.only(bottom: 12),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                color: widget.message.isEmpty
+                    ? Colors.transparent
+                    : widget.isDanger
+                        ? AppColors.colorRed
+                        : AppColors.colorYellow,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: AppColors.colorBlack.withOpacity(0.1),
+                    blurRadius: 4.0,
+                    spreadRadius: 1.0,
+                    offset: const Offset(0.0, 0.0),
                   ),
-                ),
-                Expanded(
-                  child: ListView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      ...filtredConsultationData
-                          .map((e) => ConsultationCardWidget(
-                                type: e.category,
-                                doneAt: e.date.toString(),
-                                price: e.price.toString(),
-                                stationName: "Garagi",
-                                consultationId: e.id,
-                                showMoreAction: () {
-                                  Navigator.of(context).push(
-                                      SlideLeftRouteWidget(
-                                          ConsultationScreen(model: e)));
-                                },
-                              )),
+                ],
+              ),
+              child: Text(
+                widget.message, //'vidange apres 100km',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    fontSize: 16,
+                    color: AppColors.colorWhite,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            // car details card
+            carDetailWidget(width),
+            const Text(
+              "Historique",
+              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+            ),
+            if (widget.model.consultations.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Wrap(
+                    spacing: 10.0, //
+                    children: <Widget>[
+                      ...categories.map(
+                        (choice) {
+                          return GestureDetector(
+                            onTap: () {
+                              if (choice.index == 0) {
+                                // index 0 is for all categories
+                                filtredConsultationData = consultationData;
+                              } else {
+                                // indexs 1 to 3 are for all categories and needs -1 to be equal to enum indexs
+
+                                filtredConsultationData = consultationData
+                                    .map((e) => e)
+                                    .where((elem) =>
+                                        elem.category.index == choice.index - 1)
+                                    .toList();
+                              }
+                              setState(() {
+                                for (var element in categories) {
+                                  element.isSelected = false;
+                                }
+                                choice.isSelected = true;
+                              });
+                            },
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  color: choice.isSelected
+                                      ? AppColors.colorYellow
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(
+                                      color: AppColors.colorYellow, width: 2),
+                                ),
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                                child: Text(
+                                  choice.name,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: choice.isSelected
+                                          ? Colors.white
+                                          : Colors.black),
+                                )),
+                          );
+                        },
+                      )
                     ],
                   ),
-                )
-              ] else
-                Text(
-                  "No Consultation Done Yet!",
-                  style: Theme.of(context).textTheme.bodyMedium!.merge(
-                        const TextStyle(
-                            color: AppColors.colorGray,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20),
-                      ),
-                )
-            ],
-          ),
+                ),
+              ),
+              ...filtredConsultationData.map((e) => ConsultationCardWidget(
+                    type: e.category,
+                    doneAt: e.date.toString(),
+                    price: e.price.toString(),
+                    stationName: "Garagi",
+                    consultationId: e.id,
+                    showMoreAction: () {
+                      Navigator.of(context).push(
+                          SlideLeftRouteWidget(ConsultationScreen(model: e)));
+                    },
+                  )),
+              const SizedBox(
+                height: 30,
+              ),
+            ] else
+              Text(
+                "No Consultation Done Yet!",
+                style: Theme.of(context).textTheme.bodyMedium!.merge(
+                      const TextStyle(
+                          color: AppColors.colorGray,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20),
+                    ),
+              ),
+          ],
         ),
       ),
     );

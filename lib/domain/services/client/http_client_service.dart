@@ -19,7 +19,8 @@ class HttpClientService implements ClientService {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
       debugPrint(client.toString());
-      final response = await _dio.post(
+      // final response =
+      await _dio.post(
         baseUrl,
         data: client.toJson(),
         options: Options(headers: {

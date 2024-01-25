@@ -26,7 +26,7 @@ class ConsultationCardWidget extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Container(
         padding: const EdgeInsets.all(12),
-        margin: const EdgeInsets.only(bottom: 16),
+        margin: const EdgeInsets.only(top: 8, bottom: 8, left: 4, right: 4),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           color: AppColors.colorWhite,
