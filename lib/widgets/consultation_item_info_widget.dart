@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagi_app/config/colors.dart';
 
-import '../domain/methods/date_transform.dart';
 import '../domain/models/car_details_model.dart';
-import '../domain/models/client_model.dart';
-import '../screens/manager/gerer_client/gerer_client_screen.dart';
-import 'button_secondary_widget.dart';
 
 class ConsultationItemInfoWidget extends StatelessWidget {
   const ConsultationItemInfoWidget({required this.consultation, super.key});

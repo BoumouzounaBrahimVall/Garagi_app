@@ -6,7 +6,6 @@ import 'package:garagi_app/provider/reservation_from_provider.dart';
 import 'package:garagi_app/screens/client/car_finder/widgets/car_card_widget.dart';
 
 import '../../../../../provider/car_service_provider.dart';
-import '../../../../../provider/consultation_form_provider.dart';
 import '../../../../../widgets/form/text_form_search_widget.dart';
 import '../../../../../widgets/step_infos_item.dart';
 import 'package:provider/provider.dart';
@@ -155,7 +154,5 @@ class _FormReservationVoitureScreenState
         ],
       ),
     );
-
-    ;
   }
 }

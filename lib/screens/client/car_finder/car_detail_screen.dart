@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:garagi_app/domain/models/car_details_model.dart';
+import 'package:garagi_app/screens/client/stations/stations_screen.dart';
+import 'package:latlong2/latlong.dart';
 import '../../../config/colors.dart';
 import '../../../domain/methods/transform_number.dart';
 import '../../../domain/models/car_model.dart';
@@ -244,7 +246,14 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                     height: 15,
                   ),
                   ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      //StationsScreen
+                      Navigator.of(context)
+                          .push(SlideLeftRouteWidget(StationsScreen(
+                        destination:
+                            LatLng(33.69753689571434, -7.376749639885987),
+                      )));
+                    },
                     icon: const Icon(
                       Icons.location_on,
                       size: 24.0,

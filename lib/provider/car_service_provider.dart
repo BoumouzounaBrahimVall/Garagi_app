@@ -5,7 +5,6 @@ import 'package:garagi_app/domain/services/cars/cars_service.dart';
 import 'package:garagi_app/domain/services/cars/http_cars_service.dart';
 import 'package:garagi_app/domain/services/client/client_service.dart';
 import 'package:garagi_app/domain/services/client/http_client_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/models/car_model.dart';
 
@@ -22,7 +21,7 @@ class CarServiceProvider extends ChangeNotifier {
   List<ClientModel> get clients => _clients;
 
   Future<void> fetchVehicles() async {
-    final prefs = await SharedPreferences.getInstance();
+    //  final prefs = await SharedPreferences.getInstance();
     // get id of authentidated user from shared preferences
     final result = await _carsService.getVehicles();
     result.fold((l) => messageStatus = l.message, (r) => _cars = r);

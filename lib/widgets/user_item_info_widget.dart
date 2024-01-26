@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:garagi_app/config/colors.dart';
 
 import '../domain/models/client_model.dart';
-import '../screens/manager/gerer_client/gerer_client_screen.dart';
 import 'button_secondary_widget.dart';
 
 class UserItemInfoWidget extends StatelessWidget {
@@ -26,7 +25,7 @@ class UserItemInfoWidget extends StatelessWidget {
         ],
         //border: OutlineInputBorder(),
         border: Border.all(
-          color: Color(0xffECECEC), // Color of the border
+          color: const Color(0xffECECEC), // Color of the border
           width: 1, // Width of the border
         ),
 
@@ -38,7 +37,7 @@ class UserItemInfoWidget extends StatelessWidget {
           Row(
             children: [
               Image.asset('assets/icons/user-avatat-icon.png'),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,7 +67,7 @@ class UserItemInfoWidget extends StatelessWidget {
                   // add icon, by default "3 dot" icon
                   // icon: Icon(Icons.book)
                   itemBuilder: (context) {
-                    return [
+                    return const [
                       PopupMenuItem<int>(
                         value: 0,
                         child: Text("My Account"),
@@ -85,11 +84,11 @@ class UserItemInfoWidget extends StatelessWidget {
                   },
                   onSelected: (value) {
                     if (value == 0) {
-                      print("My account menu is selected.");
+                      debugPrint("My account menu is selected.");
                     } else if (value == 1) {
-                      print("Settings menu is selected.");
+                      debugPrint("Settings menu is selected.");
                     } else if (value == 2) {
-                      print("Logout menu is selected.");
+                      debugPrint("Logout menu is selected.");
                     }
                   }),
               Row(
@@ -99,13 +98,14 @@ class UserItemInfoWidget extends StatelessWidget {
                     color: AppColors.colorBlack.withOpacity(0.5),
                     size: 14,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 4,
                   ),
                   Text(
                     user.dateCreated ?? '',
                     style: Theme.of(context).textTheme.bodySmall!.merge(
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w100)),
+                        const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w100)),
                   ),
                 ],
               )

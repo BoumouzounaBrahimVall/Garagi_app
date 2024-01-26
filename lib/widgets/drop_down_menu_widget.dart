@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:garagi_app/config/colors.dart';
 
 class DropdownMenuWidget extends StatefulWidget {
-  DropdownMenuWidget({required this.list, this.onSelectedValue, Key? key})
-      : super(key: key);
-  List<String> list;
-  Function? onSelectedValue;
+  const DropdownMenuWidget(
+      {required this.list, this.onSelectedValue, super.key});
+  final List<String> list;
+  final Function? onSelectedValue;
 
   @override
-  _DropdownMenuWidgetState createState() => _DropdownMenuWidgetState();
+  State<DropdownMenuWidget> createState() => _DropdownMenuWidgetState();
 }
 
 class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
   late String dropdownValue;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     dropdownValue = widget.list.first;
   }
@@ -34,10 +33,10 @@ class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
         borderRadius: BorderRadius.circular(8), // Optional: Add rounded corners
       ),
       child: DropdownButtonFormField<String>(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
         ),
-        style: Theme.of(context).textTheme.displaySmall!.merge(TextStyle(
+        style: Theme.of(context).textTheme.displaySmall!.merge(const TextStyle(
             color: AppColors.colorOrange, fontWeight: FontWeight.w300)),
         value: dropdownValue,
         onChanged: (String? newValue) {
@@ -51,10 +50,11 @@ class _DropdownMenuWidgetState extends State<DropdownMenuWidget> {
             value: value,
             child: Text(
               value,
-              style: Theme.of(context).textTheme.bodySmall!.merge(TextStyle(
-                  fontSize: 16,
-                  color: const Color.fromARGB(255, 52, 52, 52),
-                  fontWeight: FontWeight.w600)),
+              style: Theme.of(context).textTheme.bodySmall!.merge(
+                  const TextStyle(
+                      fontSize: 16,
+                      color: Color.fromARGB(255, 52, 52, 52),
+                      fontWeight: FontWeight.w600)),
             ),
           );
         }).toList(),

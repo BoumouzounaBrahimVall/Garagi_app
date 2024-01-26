@@ -3,16 +3,14 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:garagi_app/domain/models/car_model.dart';
 import 'package:garagi_app/screens/client/car_finder/widgets/car_card_widget.dart';
 
-import '../../../../../data/car_data.dart';
 import '../../../../../provider/car_service_provider.dart';
 import '../../../../../provider/consultation_form_provider.dart';
-import '../../../../../widgets/car_item_info_widget.dart';
 import '../../../../../widgets/form/text_form_search_widget.dart';
 import '../../../../../widgets/step_infos_item.dart';
 import 'package:provider/provider.dart';
 
 class FormVoitureScreen extends StatefulWidget {
-  const FormVoitureScreen({Key? key}) : super(key: key);
+  const FormVoitureScreen({super.key});
 
   @override
   _FormVoitureScreenState createState() => _FormVoitureScreenState();

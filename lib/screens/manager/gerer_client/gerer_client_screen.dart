@@ -4,7 +4,6 @@ import 'package:garagi_app/screens/manager/gerer_client/add_client_screen.dart';
 import 'package:garagi_app/widgets/button_primary_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../../provider/car_service_provider.dart';
 import '../../../widgets/form/text_form_search_widget.dart';
 import '../../../widgets/user_item_info_widget.dart';
 
@@ -20,7 +19,6 @@ class _GererClientScreenState extends State<GererClientScreen> {
   bool showCreateButton = true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<ClientServiceProvider>().fetchClients();
   }
@@ -36,8 +34,8 @@ class _GererClientScreenState extends State<GererClientScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    double keyboard = MediaQuery.of(context).viewInsets.bottom;
+    // double width = MediaQuery.of(context).size.width;
+    // double keyboard = MediaQuery.of(context).viewInsets.bottom;
 
     return Stack(
       children: [

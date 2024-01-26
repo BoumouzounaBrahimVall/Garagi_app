@@ -5,7 +5,6 @@ import 'package:garagi_app/provider/car_service_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../widgets/drop_down_menu_widget.dart';
-import '../../../../../widgets/form/text_form_with_label_widget.dart';
 import '../../../../../widgets/step_infos_item.dart';
 
 class StepFormClient extends StatefulWidget {

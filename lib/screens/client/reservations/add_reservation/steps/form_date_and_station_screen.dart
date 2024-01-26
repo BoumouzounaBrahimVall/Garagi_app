@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:garagi_app/config/colors.dart';
-import 'package:garagi_app/data/car_data.dart';
-import 'package:garagi_app/provider/consultation_form_provider.dart';
+
 import 'package:garagi_app/provider/reservation_from_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../widgets/drop_down_menu_widget.dart';
-import '../../../../../widgets/form/text_form_with_label_widget.dart';
 import '../../../../../widgets/step_infos_item.dart';
 
 class FormDateAndStationScreen extends StatefulWidget {

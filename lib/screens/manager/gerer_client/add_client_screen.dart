@@ -19,8 +19,8 @@ class _AddClientScreenState extends State<AddClientScreen> {
   @override
   Widget build(BuildContext context) {
     //double height = MediaQuery.of(context).size.height;
-    String messageStatus = context.watch<ClientServiceProvider>().messageStatus;
-    double width = MediaQuery.of(context).size.width;
+    // String messageStatus = context.watch<ClientServiceProvider>().messageStatus;
+    // double width = MediaQuery.of(context).size.width;
     return SecondaryLayoutScreen(
         appBarTitle: "Ajouter un client",
         body: Stack(
