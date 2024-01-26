@@ -65,6 +65,50 @@ class ReservationModel {
     };
   }
 
+  // todo : use this methode after filling the new state of the reservation, to get the json oject to send for updating the reservation
+  /*
+    ----- to get    ------
+    endpoint: /reservations/get-all
+    method: GET
+    response: 
+    [
+      {
+          "id": 2,
+          "carId": 2,
+          "stationId": 1,
+          "reservationDateTime": "2024-01-24T12:30:45.000Z",
+          "status": "ACCEPTED",
+          "car": {
+              "id": 2,
+              "ownerId": 2,
+              "KilometrageActuel": 0,
+              "createdAt": "2024-01-20T11:14:20.754Z",
+              "matricule": "4354DD23",
+              "model": "Mazda 567G",
+              "marque": null
+          },
+          "station": {
+              "id": 1,
+              "name": "Garagi Station",
+              "managerId": 1,
+              "locationId": 1
+          }
+      }, ...
+    ]
+    ----- to update ------
+   endpoint : /reservations/update
+   method: PUT
+   body : 
+      myReservation.updateStatetoJson();
+   
+    */
+  Map<String, dynamic> updateStatetoJson() {
+    return {
+      "reservationId": id,
+      "status": reservationStateText(status!),
+    };
+  }
+
   static ReservationState reservationTextToEnum(String state) {
     switch (state) {
       case "ACCEPTED":
