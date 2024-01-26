@@ -114,7 +114,7 @@ class HttpCarsService implements CarsService {
         }),
       );
       List<CarModel> cars = [];
-      for (var car in response.data['data']) {
+      for (var car in response.data) {
         cars.add(CarModel.fromJson(car));
       }
       return Right(cars);

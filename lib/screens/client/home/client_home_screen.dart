@@ -18,7 +18,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   final List<Widget> _screens = [
     const CarFinderWidget(),
     const StationsScreen(),
-    const ReservationScreen(),
+    ReservationScreen(),
     const ParametersScreen(),
   ];
   Color iconColor = AppColors.colorGray;

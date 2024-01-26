@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:garagi_app/domain/services/client/cars/get_client_cars_details.dart';
 import 'package:garagi_app/provider/client_form_provider.dart';
+import 'package:garagi_app/provider/reservation_from_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../config/app_routes.dart';
@@ -49,6 +50,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => ConsultationFormProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ReservationFormProvider(),
+        )
       ],
       child: const MyApp(),
     ),

@@ -23,7 +23,7 @@ class ButtonPrimaryWidget extends StatelessWidget {
               Size(widthp != null ? width : width * 0.9, 52)),
           maximumSize: MaterialStatePropertyAll(
               Size(widthp != null ? width : width * 0.9, 52)),
-          backgroundColor: MaterialStatePropertyAll(AppColors.colorOrange),
+          backgroundColor: MaterialStatePropertyAll(AppColors.colorYellow),
           foregroundColor: MaterialStatePropertyAll(Colors.white),
         ),
         onPressed: () => {debugPrint("clicked"), onPressed()},

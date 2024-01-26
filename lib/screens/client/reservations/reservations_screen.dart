@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:garagi_app/config/colors.dart';
-import 'package:garagi_app/widgets/app_bar/secondary_appbar_widget.dart';
-import 'package:garagi_app/widgets/button_secondary_widget.dart';
+import 'package:garagi_app/domain/models/choice_model.dart';
+import 'package:garagi_app/domain/models/reservation_model.dart';
+import 'package:garagi_app/domain/services/client/reservations/get_client_reservations.dart';
+import 'package:garagi_app/screens/client/reservations/add_reservation/add_reservation_screen.dart';
+import 'package:garagi_app/widgets/button_primary_widget.dart';
 
 class ReservationScreen extends StatefulWidget {
-  const ReservationScreen({
+  ReservationScreen({
     super.key,
   });
   @override
@@ -13,59 +16,195 @@ class ReservationScreen extends StatefulWidget {
 }
 
 class _ReservationScreenState extends State<ReservationScreen> {
-  dateTimePickerWidget(BuildContext context) {
-    return DatePicker.showDatePicker(
-      context,
-      dateFormat: 'dd MMMM yyyy HH:mm',
-      initialDateTime: DateTime.now(),
-      minDateTime: DateTime.now(),
-      maxDateTime: DateTime(3000),
-      onMonthChangeStartWithFirstDate: true,
-      onConfirm: (dateTime, List<int> index) {
-        DateTime selectdate = dateTime;
-        print(selectdate
-            .copyWith(isUtc: true)
-            .toIso8601String()); //2024-01-24T12:30:45.000Z
-      },
-    );
+  List<ReservationModel> reservations = [];
+  List<ReservationModel> filtredReservations = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getReservations();
   }
 
-  List<ReservationState> reservations = [
-    ReservationState.accepted,
-    ReservationState.rejected,
-    ReservationState.pending,
-    ReservationState.ended,
+  void getReservations() async {
+    reservations = await getClientReservations("2");
+    filtredReservations = reservations;
+    setState(() {});
+  }
+
+  List<ChoiceModel> categories = [
+    ChoiceModel(name: "Tous", index: 0, isSelected: true),
+    ChoiceModel(name: "Pending", index: 1, isSelected: false),
+    ChoiceModel(name: "Accepted", index: 2, isSelected: false),
+    ChoiceModel(name: "Rejected", index: 3, isSelected: false),
+    ChoiceModel(name: "ended", index: 3, isSelected: false),
   ];
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
-        appBar: const SecondaryAppBarWidget(
-            horizontalPadding: 10, title: 'Reservation', onPressedBack: null),
-        body: ListView.builder(
-          itemCount: reservations.length,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-              decoration: BoxDecoration(
-                color: AppColors.colorWhite,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
+        floatingActionButton: Container(
+          margin: EdgeInsets.only(
+            bottom: width / 4,
+            left: 80,
+            right: 50,
+          ),
+          child: ButtonPrimaryWidget(
+              title: 'Effectuer une Reservation',
+              onPressed: () => {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const AddReservationScreen()))
+                  }),
+        ),
+        body: Column(
+          children: [
+            const Text(
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              'Your reservations',
+              style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 20, left: 10),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Wrap(
+                  spacing: 10.0, //
+                  children: <Widget>[
+                    ...categories.map(
+                      (choice) {
+                        return GestureDetector(
+                          onTap: () {
+                            if (choice.index == 0) {
+                              // index 0 is for all categories
+                              filtredReservations = reservations;
+                            } else {
+                              // indexs 1 to 3 are for all categories and needs -1 to be equal to enum indexs
+
+                              filtredReservations = reservations
+                                  .map((e) => e)
+                                  .where((elem) =>
+                                      elem.status!.index == choice.index - 1)
+                                  .toList();
+                            }
+                            setState(() {
+                              for (var element in categories) {
+                                element.isSelected = false;
+                              }
+                              choice.isSelected = true;
+                            });
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: choice.isSelected
+                                    ? AppColors.colorYellow
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(
+                                    color: AppColors.colorYellow, width: 2),
+                              ),
+                              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                              child: Text(
+                                choice.name,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: choice.isSelected
+                                        ? Colors.white
+                                        : Colors.black),
+                              )),
+                        );
+                      },
+                    )
+                  ],
                 ),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: AppColors.colorBlack.withOpacity(0.1),
-                    blurRadius: 4.0,
-                    spreadRadius: 1.0,
-                    offset: const Offset(0.0, 0.0),
-                  ),
-                ],
               ),
-              child: ListTile(
-                  title: Text("Cameri"),
-                  subtitle: Text("2023-23-23"),
-                  trailing: reservationStateWidget(reservations[index])),
-            );
-          },
+            ),
+            SizedBox(
+              height: height - 370,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    if (filtredReservations.isNotEmpty) ...[
+                      ...filtredReservations.map(
+                        (e) => Container(
+                          margin: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                          decoration: BoxDecoration(
+                            color: AppColors.colorWhite,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: AppColors.colorBlack.withOpacity(0.1),
+                                blurRadius: 4.0,
+                                spreadRadius: 1.0,
+                                offset: const Offset(0.0, 0.0),
+                              ),
+                            ],
+                          ),
+                          child: ListTile(
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                        text: 'Le ',
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400),
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                            text: e.date!,
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const TextSpan(
+                                            text: " a ",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          TextSpan(
+                                            text: e.time!,
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ]),
+                                  ),
+                                ],
+                              ),
+                              subtitle: Text.rich(TextSpan(
+                                  text: 'Vehicle: ',
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                  children: <InlineSpan>[
+                                    TextSpan(
+                                      text: e.carModel,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ])),
+                              trailing: reservationStateWidget(e.status!)),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 160,
+                      )
+                    ] else
+                      SvgPicture.asset(
+                        "assets/svg/empty_avatar.svg",
+                        width: 150,
+                      )
+                  ],
+                ),
+              ),
+            ),
+          ],
         ));
   }
 
@@ -80,7 +219,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
         color: reservationStateColor(state),
       ),
       child: Text(
-        reservationStateText(state),
+        ReservationModel.reservationStateText(state),
         style: Theme.of(context).textTheme.bodyMedium!.merge(
               const TextStyle(
                   color: Color(0xff222222),
@@ -103,29 +242,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
         return AppColors.colorGray;
     }
   }
-
-  String reservationStateText(ReservationState state) {
-    switch (state) {
-      case ReservationState.accepted:
-        return "ACCEPTED";
-      case ReservationState.rejected:
-        return "REJECTED";
-      case ReservationState.pending:
-        return "PENDING ";
-      default:
-        return " ENDED ";
-    }
-  }
 }
 
-enum ReservationState { pending, accepted, rejected, ended }
 /**
- Container(
-        child: ElevatedButton(
-          onPressed: () {
-            dateTimePickerWidget(context);
-          },
-          child: const Text('Pick Date-Time'),
-        ),
-      ),
+ 
  */
