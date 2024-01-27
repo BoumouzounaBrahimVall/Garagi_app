@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagi_app/screens/manager/dashboard/dashboard_screen.dart';
+import 'package:garagi_app/screens/manager/gerer_reservation/gerer_reservation_screen.dart';
 import '../gerer_service/gerer_consultation_screen.dart';
 import '/screens/manager/gerer_client/gerer_client_screen.dart';
 import '/screens/manager/gerer_voiture/gerer_voiture_screen.dart';
@@ -21,6 +22,7 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
     const GererClientScreen(),
     const GererConsultationScreen(),
     const GererVoitureScreen(),
+    const GererReservationScreen(),
   ];
   Color iconColor = AppColors.colorGray;
   Color selectedIconColor = AppColors.colorYellow;
@@ -85,96 +87,106 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
         elevation: 2,
         backgroundColor: AppColors.colorBlack,
         child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment(0.22, 0.98),
-              end: Alignment(-0.22, -0.98),
-              colors: [Color.fromRGBO(254, 200, 20, 1), AppColors.colorOrange],
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment(0.22, 0.98),
+                end: Alignment(-0.22, -0.98),
+                colors: [
+                  Color.fromRGBO(254, 200, 20, 1),
+                  AppColors.colorOrange
+                ],
+              ),
             ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: height * 0.8,
-                child: ListView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  // Important: Remove any padding from the ListView.
-                  padding: const EdgeInsets.only(top: 80, left: 24, right: 24),
-                  children: [
-                    const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: height * 0.9,
+                    child: ListView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      // Important: Remove any padding from the ListView.
+                      padding:
+                          const EdgeInsets.only(top: 80, left: 24, right: 24),
                       children: [
-                        CircleAvatar(
-                          backgroundColor: AppColors.colorWhite,
-                          radius: 50,
-                          child: Icon(
-                            Icons.person,
-                            size: 70,
-                            color: AppColors.colorYellow,
-                          ),
+                        const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: AppColors.colorWhite,
+                              radius: 50,
+                              child: Icon(
+                                Icons.person,
+                                size: 70,
+                                color: AppColors.colorYellow,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Text(
+                              "Hamza El Idrissi",
+                              style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.colorWhite),
+                            ),
+                            Text(
+                              "Manager",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: AppColors.colorWhite,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 50.0,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Text(
-                          "Hamza El Idrissi",
-                          style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.colorWhite),
-                        ),
-                        Text(
-                          "Manager",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: AppColors.colorWhite,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 50.0,
-                        ),
+                        myListTile(0, "Dashboard", Icons.dashboard_rounded),
+                        myListTile(1, "Gerer Clients", Icons.person),
+                        myListTile(
+                            2, "Gerer Consultation", Icons.home_repair_service),
+                        myListTile(
+                            3, "Gerer Voitures", Icons.car_repair_rounded),
+                        myListTile(
+                            4, "Gerer Reservations", Icons.edit_document),
+                        myListTile(
+                            3, "À propos de Garaggi", Icons.info_outline),
                       ],
                     ),
-                    myListTile(0, "Dashboard", Icons.dashboard_rounded),
-                    myListTile(1, "Gerer Clients", Icons.person),
-                    myListTile(
-                        2, "Gerer Consultation", Icons.home_repair_service),
-                    myListTile(3, "Gerer Voitures", Icons.car_repair_rounded),
-                    myListTile(3, "À propos de Garaggi", Icons.info_outline),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 24, right: 24, bottom: 40),
-                child: ListTile(
-                  horizontalTitleGap: 0,
-                  minVerticalPadding: 2,
-                  dense: true,
-                  trailing: const Icon(
-                    Icons.exit_to_app_rounded,
-                    size: 24,
-                    color: AppColors.colorWhite,
                   ),
-                  title: const Text(
-                    "Déconnexion",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.colorWhite),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 24, right: 24, bottom: 40),
+                    child: ListTile(
+                      horizontalTitleGap: 0,
+                      minVerticalPadding: 2,
+                      dense: true,
+                      trailing: const Icon(
+                        Icons.exit_to_app_rounded,
+                        size: 24,
+                        color: AppColors.colorWhite,
+                      ),
+                      title: const Text(
+                        "Déconnexion",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.colorWhite),
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                      selectedColor: AppColors.colorYellow,
+                      onTap: () {
+                        // Update the state of the app
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
                   ),
-                  contentPadding: EdgeInsets.zero,
-                  selectedColor: AppColors.colorYellow,
-                  onTap: () {
-                    // Update the state of the app
-                    // Then close the drawer
-                    Navigator.pop(context);
-                  },
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
+            )),
       ),
     );
   }
