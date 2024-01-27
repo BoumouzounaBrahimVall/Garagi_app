@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../domain/models/client_model.dart';
 import '../domain/models/form_client_model.dart';
 import '../domain/services/client/client_service.dart';
 import '../domain/services/client/http_client_service.dart';
+import 'client_form_provider.dart';
 
 class ClientServiceProvider extends ChangeNotifier {
   final ClientService _clientService = HttpClientService();
@@ -24,7 +26,8 @@ class ClientServiceProvider extends ChangeNotifier {
     final result = await _clientService.createClient(formClientModel);
     result.fold(
         (l) => messageStatus = l.message, (r) => messageStatus = r.message);
-
+    fetchClients();
+    // context.read<ClientFormProvider>().resetForm();
     notifyListeners();
   }
 
