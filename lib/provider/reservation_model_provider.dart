@@ -17,14 +17,13 @@ class ReservationModelProvider extends ChangeNotifier {
     ChoiceModel(name: "Pending", index: 1, isSelected: false),
     ChoiceModel(name: "Accepted", index: 2, isSelected: false),
     ChoiceModel(name: "Rejected", index: 3, isSelected: false),
-    ChoiceModel(name: "ended", index: 3, isSelected: false),
+    ChoiceModel(name: "ended", index: 4, isSelected: false),
   ];
   Future<void> fetchReservations() async {
-    isLoading =
-        true; /*
+    isLoading = true;
     List<ReservationModel> reservations =
-        await _reservationService.getReservations();*/
-    List<ReservationModel> reservations = await getClientReservations("2");
+        await _reservationService.getReservations();
+    //  List<ReservationModel> reservations = await getClientReservations("2");
     _reservations = reservations;
     _filtredReservations = reservations;
     isLoading = false;

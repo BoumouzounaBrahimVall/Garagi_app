@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:garagi_app/config/colors.dart';
 import 'package:garagi_app/domain/models/choice_model.dart';
 import 'package:garagi_app/domain/models/reservation_model.dart';
+import 'package:garagi_app/domain/models/user_model.dart';
 import 'package:garagi_app/domain/services/client/reservations/get_client_reservations.dart';
 import 'package:garagi_app/screens/client/reservations/add_reservation/add_reservation_screen.dart';
 import 'package:garagi_app/widgets/button_primary_widget.dart';
@@ -26,7 +27,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
   }
 
   void getReservations() async {
-    reservations = await getClientReservations("2");
+    String clientId = (await User.getInstance())!.userId.toString();
+    reservations = await getClientReservations(clientId);
     filtredReservations = reservations;
     setState(() {});
   }

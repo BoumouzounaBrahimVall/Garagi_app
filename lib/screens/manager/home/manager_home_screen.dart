@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagi_app/domain/services/auth/auth_token_service.dart';
 import 'package:garagi_app/screens/manager/dashboard/dashboard_screen.dart';
 import 'package:garagi_app/screens/manager/gerer_reservation/gerer_reservation_screen.dart';
 import '../gerer_service/gerer_consultation_screen.dart';
@@ -180,7 +181,8 @@ class _ManagerHomeScreenState extends State<ManagerHomeScreen> {
                       onTap: () {
                         // Update the state of the app
                         // Then close the drawer
-                        Navigator.pop(context);
+                        AuthentificationService.logout().then((value) =>
+                            {Navigator.pushReplacementNamed(context, '/')});
                       },
                     ),
                   ),

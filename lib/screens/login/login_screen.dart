@@ -4,6 +4,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:garagi_app/config/constants.dart';
+import 'package:garagi_app/domain/services/auth/auth_token_service.dart';
+import 'package:garagi_app/widgets/toast_widget.dart';
 import '../client/home/client_home_screen.dart';
 import '/widgets/app_bar/secondary_appbar_widget.dart';
 import '/widgets/form/primary_button_widget.dart';
@@ -55,59 +57,36 @@ class _SigninScreenState extends State<SigninScreen> {
 
     double width = MediaQuery.of(context).size.width;
     // ================================================================== API SERVICES (START)
-    /*
+
     Future<void> loginUsers() async {
       if (formSignin.currentState!.validate()) {
-        if (inputEmailUsername.text == 'brahimvall@gmail.com') {
-          Navigator.of(context)
-              .push(SlideBottomRouteWidget(const AppFrameWidget()));
+        if (inputEmailUsername.text.isNotEmpty &&
+            inputPassword.text.isNotEmpty) {
+          final logged = await AuthentificationService.login(
+              inputEmailUsername.text, inputPassword.text);
+          if (logged) // user is logged in
+          {
+            Navigator.pushReplacementNamed(context, '/');
+          } else {
+            ToastWidget.showToast(
+              context: context,
+              text: 'email or password is invalid',
+              icon: Icons.info,
+              bgColor: AppColors.colorRed,
+              textColor: AppColors.colorWhite,
+            );
+          }
+          ;
         } else {
           ToastWidget.showToast(
             context: context,
-            text: 'Incorrect email or password',
+            text: 'email and password are required',
             icon: Icons.info,
             bgColor: AppColors.colorRed,
             textColor: AppColors.colorWhite,
           );
         }
         return;
-        //show snackbar to indicate loading
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Processing Data'),
-            backgroundColor: Colors.green.shade300,
-          ),
-        );
-
-        var apiClient = AuthApiClient();
-
-        //get response from ApiClient
-        dynamic res = await apiClient.login(
-          {"login": inputEmailUsername.text, "password": inputPassword.text},
-        );
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
-        //if there is no error, get the user's accesstoken and pass it to HomeScreen
-        if (res['status'] == true) {
-          String accessToken = res['data']['token'];
-          Provider.of<AuthModel>(
-            context,
-            listen: false,
-          ).setAccessToken(accessToken);
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) => HomeScreen(accesstoken: accessToken)));
-        } else {
-          //if an error occurs, show snackbar with error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Error: ${res['message']}'),
-              backgroundColor: Colors.red.shade300,
-            ),
-          );
-        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -117,7 +96,7 @@ class _SigninScreenState extends State<SigninScreen> {
         );
       }
     }
-   */
+
     // ================================================================== API SERVICES (END)
 
     return Scaffold(
@@ -252,15 +231,8 @@ class _SigninScreenState extends State<SigninScreen> {
                       children: <Widget>[
                         PrimaryButtonWidget(
                           buttonLabel: "Sign in",
-                          onPressed: () {
-                            if (connectivity()) {
-                              Navigator.of(context).push(
-                                SlideLeftRouteWidget(
-                                  const ClientHomeScreen(),
-                                ),
-                              );
-                              //  loginUsers();
-                            }
+                          onPressed: () async {
+                            await loginUsers();
                           },
                         ),
                       ],

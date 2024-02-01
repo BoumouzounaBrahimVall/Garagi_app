@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagi_app/config/colors.dart';
+import 'package:garagi_app/domain/models/client_model.dart';
 import 'package:garagi_app/provider/car_form_provider.dart';
 import 'package:garagi_app/provider/car_service_provider.dart';
 import 'package:garagi_app/provider/client_service_provider.dart';
@@ -25,11 +26,13 @@ class _StepFormVoitureState extends State<StepFormClient> {
   void initState() {
     super.initState();
     context.read<CarServiceProvider>().fetchClients();
+    //   clients=context.watch<CarServiceProvider>().clients;
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isLoading = context.watch<CarServiceProvider>().isLoading;
+    // bool isLoading = context.watch<CarServiceProvider>().isLoading;
+    List<ClientModel> clients = context.watch<CarServiceProvider>().clients;
     return Column(
       children: [
         StepInfosItem(stepNumber: '02', stepTitle: 'Saisi Infos Client'),
@@ -57,12 +60,13 @@ class _StepFormVoitureState extends State<StepFormClient> {
                       fontSize: 20)),
             ),
             const SizedBox(height: 16),
-            DropdownMenuWidget(
-              list: context.watch<CarServiceProvider>().clients.map((e) {
-                return '${e.id} ${e.fullName!}';
-              }).toList(),
-              onSelectedValue: _onSelectedValue,
-            ),
+            if (clients.isNotEmpty)
+              DropdownMenuWidget(
+                list: clients.map((e) {
+                  return '${e.id} ${e.fullName!}';
+                }).toList(),
+                onSelectedValue: _onSelectedValue,
+              ),
           ],
         )
       ],

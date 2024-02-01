@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagi_app/domain/services/auth/auth_token_service.dart';
 import '../../../config/colors.dart';
 import '../../../screens/client/parameters/parameters_screen.dart';
 import '../../../screens/client/reservations/reservations_screen.dart';
@@ -32,6 +33,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: _currentIndex != 1
           ? PrimaryAppBarWidget(
@@ -40,8 +42,34 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                     initialChildSize: 0.8,
                     maxChildSize: 0.9,
                     minChildSize: 0.5,
-                    child: const SizedBox(
+                    child: SizedBox(
                       height: 200,
+                      width: width,
+                      child: ListTile(
+                        horizontalTitleGap: 0,
+                        minVerticalPadding: 2,
+                        dense: true,
+                        trailing: const Icon(
+                          Icons.exit_to_app_rounded,
+                          size: 24,
+                          color: AppColors.colorYellow,
+                        ),
+                        title: const Text(
+                          "Déconnexion",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.colorYellow),
+                        ),
+                        contentPadding: EdgeInsets.zero,
+                        selectedColor: AppColors.colorYellow,
+                        onTap: () {
+                          // Update the state of the app
+                          // Then close the drawer
+                          AuthentificationService.logout().then((value) =>
+                              {Navigator.pushReplacementNamed(context, '/')});
+                        },
+                      ),
                     ));
                 //modalBottomSheetWidget
               },

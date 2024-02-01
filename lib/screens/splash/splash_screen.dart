@@ -5,6 +5,7 @@ import 'package:entry/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:garagi_app/domain/models/user_model.dart';
 import '../../config/colors.dart';
 import '../../config/constants.dart';
 
@@ -16,9 +17,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  Future<bool> _checkAUthenticatedUser() async {
-    final signedIn =
-        false; // = await GoogleAuthService.instance.initAuth(context);
+  Future<bool> _isLoggedIn() async {
+    bool signedIn = await User.getInstance() != null;
+    false; // = await GoogleAuthService.instance.initAuth(context);
     return signedIn;
   }
 
@@ -31,12 +32,20 @@ class _SplashScreenState extends State<SplashScreen> {
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final signedIn = await _checkAUthenticatedUser();
+      final signedIn = await _isLoggedIn();
+      // user is signed in
       if (signedIn) {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => HomeScreen(accesstoken: accessToken)));
+        // user is client
+        if (User.instance!.role == UserRole.client) {
+          Timer(const Duration(seconds: 2), () async {
+            Navigator.pushReplacementNamed(context, '/client');
+          });
+        } else {
+          // user is manager
+          Timer(const Duration(seconds: 2), () async {
+            Navigator.pushReplacementNamed(context, '/manager');
+          });
+        }
       } else {
         if (!mounted) return;
         Timer(const Duration(seconds: 2), () async {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:garagi_app/domain/models/car_details_model.dart';
+import 'package:garagi_app/domain/models/user_model.dart';
 import 'package:garagi_app/domain/services/client/cars/get_client_cars_details.dart';
 import 'package:garagi_app/screens/client/car_finder/car_detail_screen.dart';
 import 'package:garagi_app/widgets/screen_transitions_widget.dart';
@@ -27,7 +28,8 @@ class _CarFinderWidgetState extends State<CarFinderWidget> {
 
   void getCars() async {
     //  clientCars = await getClientCars();
-    cars = await getClientCarsDetails("2");
+    String clientId = (await User.getInstance())!.userId.toString();
+    cars = await getClientCarsDetails(clientId);
     setState(() {});
   }
 

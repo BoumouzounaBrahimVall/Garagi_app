@@ -1,69 +1,121 @@
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// To parse this JSON data, do : final user = userFromJson(jsonString);
-
-User userFromJson(
-  String str,
-) =>
-    User.fromJson(
-      json.decode(
-        str,
-      ),
-    );
-
-String userToJson(
-  User data,
-) =>
-    json.encode(
-      data.toJson(),
-    );
+enum UserRole { client, manager }
 
 class User {
+  final int id;
+  final String email;
+  final String phoneNumber;
+  final bool isActive;
+  final UserRole role;
+  final int userId;
+  final String token;
+  static User? instance;
+  static String key = 'user';
   User({
-    required this.username,
+    required this.id,
     required this.email,
-    this.password,
     required this.phoneNumber,
-    required this.dateBirth,
-    required this.sexe,
+    required this.isActive,
     required this.role,
-    this.passwordConfirmation,
+    required this.userId,
+    required this.token,
   });
-  int? id;
-  String username;
-  String email;
-  late String? password;
-  String phoneNumber;
-  DateTime dateBirth;
-  String sexe;
-  String role;
-  late String? passwordConfirmation;
+  // to get a single instance of the user for an app
+  static Future<User?> getInstance() async {
+    if (instance == null) {
+      instance = await User.getUserFromSharedPreferences();
+      print(instance);
+    }
+    return instance;
+  }
 
-  factory User.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      User(
-        username: json["username"],
-        email: json["email"],
-        password: json["password"],
-        phoneNumber: json["phone_number"],
-        dateBirth: DateTime.parse(
-          json["date_birth"],
-        ),
-        sexe: json["sexe"],
-        role: json["role"],
-        passwordConfirmation: json["password_confirmation"],
-      );
+  // Convert the User object to a Map
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'isActive': isActive,
+      'role': getRoleAsTextFromEnum(role),
+      'userId': userId,
+      'token': token,
+    };
+  }
 
-  Map<String, dynamic> toJson() => {
-        "username": username,
-        "email": email,
-        "password": password,
-        "phone_number": phoneNumber,
-        "date_birth":
-            "${dateBirth.year.toString().padLeft(4, '0')}-${dateBirth.month.toString().padLeft(2, '0')}-${dateBirth.day.toString().padLeft(2, '0')}",
-        "sexe": sexe,
-        "role": role,
-        "password_confirmation": passwordConfirmation,
-      };
+  static UserRole getRoleFromText(String text) {
+    switch (text) {
+      case "USER":
+        return UserRole.client;
+      default:
+        return UserRole.manager;
+    }
+  }
+
+  static String getRoleAsTextFromEnum(UserRole text) {
+    switch (text) {
+      case UserRole.client:
+        return "USER";
+      default:
+        return 'MANAGER';
+    }
+  }
+
+  @override
+  String toString() {
+    return 'id: $id, email: $email, phoneNumber: $phoneNumber, isActive: $isActive, role: $role, userId: $userId }';
+  }
+
+  // Create a User object from a Map
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      id: map['id'],
+      email: map['email'],
+      phoneNumber: map['phoneNumber'],
+      isActive: map['isActive'],
+      role: getRoleFromText(map['role']),
+      userId: map['userId'],
+      token: map['token'],
+    );
+  }
+
+  // Store the User object in SharedPreferences
+  static Future<void> saveUserToSharedPreferences(User user) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Convert the User object to a JSON string
+    final userJson = jsonEncode(user.toMap());
+
+    // Store the JSON string in SharedPreferences
+    prefs.setString(key, userJson);
+    instance = user;
+  }
+
+// Retrieve the User object from SharedPreferences
+  static Future<User?> getUserFromSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Retrieve the JSON string from SharedPreferences
+    final userJson = prefs.getString(key);
+
+    // If the JSON string is null, return null
+    if (userJson == null) {
+      return null;
+    }
+
+    // Convert the JSON string to a Map
+    final userMap = jsonDecode(userJson);
+
+    // Create a User object from the Map
+    return User.fromMap(userMap);
+  }
+
+  // Remove the User data from SharedPreferences
+  static Future<void> removeUserFromSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    instance = null;
+    // Remove the data associated with the 'user' key
+    prefs.remove(key);
+  }
 }

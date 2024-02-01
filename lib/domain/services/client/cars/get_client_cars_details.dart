@@ -1,12 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:garagi_app/config/constants.dart';
 import 'package:garagi_app/domain/models/car_details_model.dart';
+import 'package:garagi_app/domain/models/user_model.dart';
 
 Future<List<CarDetailModel>> getClientCarsDetails(String clientId) async {
   final dio = Dio();
   Response response;
+
   try {
-    response = await dio.get('${AppConstants.backendUrl}/cars/$clientId');
+    response = await dio.get(
+      '${AppConstants.backendUrl}/cars/$clientId',
+      options: Options(headers: {
+        'authorization': 'Bearer ${User.instance!.token}',
+      }),
+    );
     if (response.statusCode == 200) {
       List<CarDetailModel> cars = (response.data as List<dynamic>)
           .map((jsonData) => CarDetailModel.fromJson(jsonData))

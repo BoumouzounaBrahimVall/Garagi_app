@@ -129,7 +129,8 @@ class HttpCarsService implements CarsService {
     String baseUrl = '${AppConstants.backendUrl}/cars/';
     try {
       final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token');
+      const token =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJyYWhpbXZhbGxAZ21haWwuY29tIiwiaWF0IjoxNzA2Nzk4MzY0LCJleHAiOjE3MDY4MDAxNjR9.YNsIGOIJvjZw7itP9r4oVcgXY72-jjt5w6Ra6gdtd9o"; //prefs.getString('token');
       final response = await _dio.get(
         baseUrl,
         options: Options(headers: {
@@ -169,5 +170,17 @@ class HttpCarsService implements CarsService {
       debugPrint(e.toString());
       return Left(Failure("request failed"));
     }
+  }
+
+// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJyYWhpbXZhbGxAZ21haWwuY29tIiwiaWF0IjoxNzA2Nzk4MzY0LCJleHAiOjE3MDY4MDAxNjR9.YNsIGOIJvjZw7itP9r4oVcgXY72-jjt5w6Ra6gdtd9o"
+  static Future<String> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    return token ?? '';
+  }
+
+  static Future<bool> setToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    return await prefs.setString('token', token);
   }
 }

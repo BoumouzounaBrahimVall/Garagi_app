@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:garagi_app/domain/models/car_details_model.dart';
@@ -67,36 +69,37 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // notification banner
-            Container(
-              padding: const EdgeInsets.all(12),
-              margin: const EdgeInsets.only(bottom: 12),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                color: widget.message.isEmpty
-                    ? Colors.transparent
-                    : widget.isDanger
-                        ? AppColors.colorRed
-                        : AppColors.colorYellow,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: AppColors.colorBlack.withOpacity(0.1),
-                    blurRadius: 4.0,
-                    spreadRadius: 1.0,
-                    offset: const Offset(0.0, 0.0),
-                  ),
-                ],
+            if (widget.message.isNotEmpty)
+              Container(
+                padding: const EdgeInsets.all(12),
+                margin: const EdgeInsets.only(bottom: 12),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  color: widget.message.isEmpty
+                      ? Colors.transparent
+                      : widget.isDanger
+                          ? AppColors.colorRed
+                          : AppColors.colorYellow,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: AppColors.colorBlack.withOpacity(0.1),
+                      blurRadius: 4.0,
+                      spreadRadius: 1.0,
+                      offset: const Offset(0.0, 0.0),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  widget.message, //'vidange apres 100km',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: 16,
+                      color: AppColors.colorWhite,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
-              child: Text(
-                widget.message, //'vidange apres 100km',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 16,
-                    color: AppColors.colorWhite,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
             // car details card
             carDetailWidget(width),
             const Text(
@@ -250,8 +253,11 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                       //StationsScreen
                       Navigator.of(context)
                           .push(SlideLeftRouteWidget(StationsScreen(
-                        destination:
-                            LatLng(33.69753689571434, -7.376749639885987),
+                        destination: LatLng(
+                            generateRandomDoubleInRange(
+                                33.69296482650073, 33.70023759848379),
+                            generateRandomDoubleInRange(
+                                -7.380494064630076, -7.346288127379979)),
                       )));
                     },
                     icon: const Icon(
@@ -322,5 +328,10 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
             )
           ],
         ));
+  }
+
+  double generateRandomDoubleInRange(double min, double max) {
+    final random = Random();
+    return min + random.nextDouble() * (max - min);
   }
 }

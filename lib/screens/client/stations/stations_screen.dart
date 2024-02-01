@@ -159,8 +159,8 @@ class _StationsScreenState extends State<StationsScreen> {
               mapController: mapController,
               options: MapOptions(
                 minZoom: 5,
-                maxZoom: 16,
-                zoom: 13,
+                maxZoom: 20,
+                zoom: 14,
                 center: centerLocation,
                 onTap: (tapPosition, point) {
                   debugPrint("${point.latitude}");
