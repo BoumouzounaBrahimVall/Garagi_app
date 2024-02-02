@@ -60,7 +60,7 @@ class _AddVoitureScreenState extends State<AddVoitureScreen> {
               ),
             ),
             Positioned(
-              bottom: 10,
+              bottom: height * 0.05,
               left: width * 0.05,
               child: ButtonPrimaryWidget(
                   title: _currentPage == 1 ? 'Enregistrer' : 'Suivant',

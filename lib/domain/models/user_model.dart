@@ -83,19 +83,17 @@ class User {
   // Store the User object in SharedPreferences
   static Future<void> saveUserToSharedPreferences(User user) async {
     final prefs = await SharedPreferences.getInstance();
-
     // Convert the User object to a JSON string
     final userJson = jsonEncode(user.toMap());
+    instance = user;
 
     // Store the JSON string in SharedPreferences
     prefs.setString(key, userJson);
-    instance = user;
   }
 
 // Retrieve the User object from SharedPreferences
   static Future<User?> getUserFromSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
-
     // Retrieve the JSON string from SharedPreferences
     final userJson = prefs.getString(key);
 
@@ -106,9 +104,9 @@ class User {
 
     // Convert the JSON string to a Map
     final userMap = jsonDecode(userJson);
-
+    instance = User.fromMap(userMap);
     // Create a User object from the Map
-    return User.fromMap(userMap);
+    return instance;
   }
 
   // Remove the User data from SharedPreferences

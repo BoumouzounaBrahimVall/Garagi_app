@@ -82,7 +82,7 @@ class _GererVoitureScreenState extends State<GererVoitureScreen> {
           ),
         ),
         Positioned(
-          bottom: 10,
+          bottom: height * 0.06,
           left: width * 0.025,
           child: ButtonPrimaryWidget(
               title: 'Ajouter Voiture',

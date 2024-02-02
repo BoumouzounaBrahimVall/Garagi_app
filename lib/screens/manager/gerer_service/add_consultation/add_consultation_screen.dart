@@ -62,7 +62,7 @@ class _AddConsultationScreenState extends State<AddConsultationScreen> {
               ]),
             ),
             Positioned(
-              bottom: 10,
+              bottom: height * 0.1,
               left: width * 0.05,
               child: ButtonPrimaryWidget(
                   title: _currentPage == 3 ? 'Enregistrer' : 'Suivant',

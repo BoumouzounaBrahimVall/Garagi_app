@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:garagi_app/domain/models/car_model.dart';
 import 'package:garagi_app/domain/models/failure_success.dart';
 import 'package:garagi_app/domain/models/form_car_model.dart';
+import 'package:garagi_app/domain/models/user_model.dart';
 import 'package:garagi_app/domain/services/cars/cars_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,9 +16,7 @@ class HttpCarsService implements CarsService {
   Future<Either<Failure, Success>> createVehicle(FormCarModel car) async {
     String baseUrl = '${AppConstants.backendUrl}/cars/create';
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token');
-      debugPrint(car.toString());
+      String token = (await User.getInstance())!.token;
       //  final response =
       await _dio.post(
         baseUrl,
@@ -40,9 +39,7 @@ class HttpCarsService implements CarsService {
     String baseUrl =
         '${AppConstants.backendUrl}/cars/delete/$matricule/$clientId';
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token');
-      debugPrint(matricule);
+      String token = (await User.getInstance())!.token;
       final response = await _dio.delete(
         baseUrl,
         options: Options(headers: {
@@ -104,9 +101,8 @@ class HttpCarsService implements CarsService {
       int ownerId) async {
     String baseUrl = '${AppConstants.backendUrl}/cars/$ownerId';
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token');
-      debugPrint(ownerId.toString());
+      String token = (await User.getInstance())!.token;
+
       final response = await _dio.get(
         baseUrl,
         options: Options(headers: {
@@ -128,9 +124,7 @@ class HttpCarsService implements CarsService {
   Future<Either<Failure, List<CarModel>>> getVehicles() async {
     String baseUrl = '${AppConstants.backendUrl}/cars/';
     try {
-      final prefs = await SharedPreferences.getInstance();
-      const token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJyYWhpbXZhbGxAZ21haWwuY29tIiwiaWF0IjoxNzA2Nzk4MzY0LCJleHAiOjE3MDY4MDAxNjR9.YNsIGOIJvjZw7itP9r4oVcgXY72-jjt5w6Ra6gdtd9o"; //prefs.getString('token');
+      String token = (await User.getInstance())!.token;
       final response = await _dio.get(
         baseUrl,
         options: Options(headers: {

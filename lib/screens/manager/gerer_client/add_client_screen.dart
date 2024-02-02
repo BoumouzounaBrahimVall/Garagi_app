@@ -110,18 +110,19 @@ class _AddClientScreenState extends State<AddClientScreen> {
                   const SizedBox(height: 20),
                   ButtonPrimaryWidget(
                       title: 'Enregistrer',
-                      onPressed: () {
+                      onPressed: () async {
                         FormClientModel form = context
                             .read<ClientFormProvider>()
                             .getFormClientModel;
 
-                        context
+                        await context
                             .read<ClientServiceProvider>()
                             .createClient(form);
                         context
                             .read<ClientFormProvider>()
                             .setFormClientModel(FormClientModel());
                         debugPrint('Client ${form.toJson()}');
+                        Navigator.of(context).pop();
                       }),
                   const SizedBox(height: 100),
                 ],

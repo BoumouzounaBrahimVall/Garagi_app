@@ -90,7 +90,7 @@ class _GererConsultationScreenState extends State<GererConsultationScreen> {
           }),
         ),
         Positioned(
-          bottom: 0,
+          bottom: height * 0.05,
           left: 0,
           right: 0,
           child: Visibility(

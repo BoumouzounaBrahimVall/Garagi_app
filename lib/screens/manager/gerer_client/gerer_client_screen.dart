@@ -89,13 +89,13 @@ class _GererClientScreenState extends State<GererClientScreen> {
                           SizedBox(height: 16),
                       itemCount: clientService.clients.length),
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 200),
               ],
             );
           }),
         ),
         Positioned(
-          bottom: 0,
+          bottom: height * 0.05,
           left: 0,
           right: 0,
           child: Visibility(

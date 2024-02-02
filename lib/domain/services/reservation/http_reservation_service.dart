@@ -17,7 +17,7 @@ class HttpReservationService implements ReservationService {
       response.data.forEach((reservation) {
         reservations.add(ReservationModel.fromJson(reservation));
       });
-      return reservations;
+      return reservations.reversed.toList();
     } catch (e) {
       return [];
     }
